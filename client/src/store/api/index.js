@@ -14,3 +14,17 @@ export const fetchData = async (dataURL, data) => {
       return undefined;
     });
 };
+
+export const putData = async (dataURL, data) => {
+  return Axios.post(baseUrl + dataURL, {
+    data: data,
+  })
+    .then((response) => {
+      console.log(response);
+      return response.data;
+    })
+    .catch((err) => {
+      console.log(err);
+      return undefined;
+    });
+};

@@ -1,0 +1,19 @@
+.container {
+  width: 80%;
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+  padding: 10% 0;
+}
+.formItem {
+  width: 120%;
+}
+
+/* .input {
+} */
+
+.button {
+  width: 120%;
+}

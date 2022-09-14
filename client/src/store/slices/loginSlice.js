@@ -6,11 +6,11 @@ const loginSlice = createSlice({
   initialState: initialState.userDetails,
   reducers: {
     logout: (state) => {
-      localStorage.removeItem("username");
+      localStorage.removeItem("email");
     },
     storeUsername: (state, action) => {
       state.username = action.payload;
-      localStorage.setItem("username", state.username);
+      localStorage.setItem("email", state.username);
     },
     getUsername: (state) => {
       return state.username;
