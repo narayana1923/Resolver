@@ -23,8 +23,8 @@ CREATE TABLE `resolver`.`employee` (
   CONSTRAINT `organization_id`
     FOREIGN KEY (`organization_id`)
     REFERENCES `resolver`.`organization` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
+    ON DELETE CASCADE
+  ON UPDATE CASCADE;);
 
 CREATE TABLE `resolver`.`project` (
   `pid` INT NOT NULL AUTO_INCREMENT,
@@ -38,8 +38,8 @@ CREATE TABLE `resolver`.`project` (
   CONSTRAINT `project_organization_id`
     FOREIGN KEY (`organization_id`)
     REFERENCES `resolver`.`organization` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
+    ON DELETE CASCADE
+  ON UPDATE CASCADE;);
 
 CREATE TABLE `resolver`.`ticket` (
   `tid` INT NOT NULL AUTO_INCREMENT,
@@ -55,8 +55,8 @@ CREATE TABLE `resolver`.`ticket` (
   CONSTRAINT `ticket_project_id`
     FOREIGN KEY (`project_id`)
     REFERENCES `resolver`.`project` (`pid`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
+    ON DELETE CASCADE
+  ON UPDATE CASCADE;);
 
 CREATE TABLE `resolver`.`project_assign` (
   `assign_id` INT NOT NULL AUTO_INCREMENT,
@@ -69,10 +69,10 @@ CREATE TABLE `resolver`.`project_assign` (
   CONSTRAINT `assign_project_id`
     FOREIGN KEY (`pid`)
     REFERENCES `resolver`.`project` (`pid`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+  ON UPDATE CASCADE;,
   CONSTRAINT `assign_employee_id`
     FOREIGN KEY (`eid`)
     REFERENCES `resolver`.`employee` (`empid`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
+    ON DELETE CASCADE
+  ON UPDATE CASCADE;);
