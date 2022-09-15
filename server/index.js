@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const mysql = require("mysql");
 const cors = require("cors");
+const { request, response } = require("express");
 
 app.use(cors());
 app.use(express.json());
@@ -126,35 +127,115 @@ app.post("/createProject", (req, res) => {
   );
 });
 
-app.post("/showProjects", (req, res) => {
+app.post("/getProjects", (req, res) => {
   const id = req.body.data;
+  let tickets = [];
+  let projects = [];
+  let ticketDetails = [];
   db.query(
-    "SELECT * FROM `resolver`.`project` where organization_id=?",
+    "select * from project " + "where organization_id=?",
     [id],
     (err, result) => {
-      if (err) return res.send("Not OK");
-      else {
-        let projects = [];
+      if (err) {
+        console.log(err);
+        res.send("NOT OK");
+      } else {
+        let pids = "";
         for (var i = 0; i < result.length; i++) {
-          let row = {};
-          row["pid"] = result[i]["pid"];
-          row["name"] = result[i]["name"];
-          row["start_date"] = result[i]["start_date"];
-          row["end_date"] = result[i]["end_date"];
-          row["status"] = result[i]["status"];
-          projects.push(row);
+          let projectRow = {};
+          pids += `${result[i]["pid"]}`;
+          if (i != result.length - 1) pids += ",";
+          projectRow["pid"] = result[i]["pid"];
+          projectRow["name"] = result[i]["name"];
+          projectRow["start_date"] = result[i]["start_date"];
+          projectRow["end_date"] = result[i]["end_date"];
+          projectRow["status"] = result[i]["status"];
+          let assignedEmployees = [];
+          db.query(
+            "select" +
+              " assign_id,p.pid project_id,eid,assigned_on" +
+              " from project p natural join project_assign pa " +
+              "where p.pid=?",
+            [projectRow["pid"]],
+            (assignError, assignResult) => {
+              if (assignError) {
+                console.log(assignError);
+                res.send("Not OK");
+              }
+              for (var i = 0; i < assignResult.length; i++) {
+                let assignRow = {};
+                assignRow["assign_id"] = assignResult[i]["assign_id"];
+                assignRow["project_id"] = assignResult[i]["project_id"];
+                assignRow["eid"] = assignResult[i]["eid"];
+                assignRow["assigned_on"] = assignResult[i]["assigned_on"];
+                assignedEmployees.push(assignRow);
+              }
+              projectRow["assignedEmployees"] = assignedEmployees;
+              projects.push(projectRow);
+            }
+          );
         }
-        let data = {
-          organizationId: id,
-          projects: projects,
-        };
-        return res.send(data);
+        db.query(
+          "select * from ticket " + `where project_id in (${pids})`,
+          [],
+          (ticketError, ticketResult) => {
+            if (ticketError) {
+              console.log("Ticket error", ticketError);
+              res.send("NOT OK");
+            } else {
+              let tids = "";
+              for (var i = 0; i < ticketResult.length; i++) {
+                let ticketRow = {};
+                tids += `${ticketResult[i]["tid"]}`;
+                if (i != ticketResult.length - 1) tids += ",";
+                ticketRow["tid"] = ticketResult[i]["tid"];
+                ticketRow["name"] = ticketResult[i]["name"];
+                ticketRow["summary"] = ticketResult[i]["summary"];
+                ticketRow["description"] = ticketResult[i]["description"];
+                ticketRow["priority"] = ticketResult[i]["priority"];
+                ticketRow["raised_date"] = ticketResult[i]["raised_date"];
+                ticketRow["close_date"] = ticketResult[i]["close_date"];
+                ticketRow["project_id"] = ticketResult[i]["project_id"];
+                tickets.push(ticketRow);
+              }
+              db.query(
+                "select * from ticketdetails " + `where tid in (${tids})`,
+                [],
+                (ticketDetailsError, ticketDetailsResult) => {
+                  if (ticketDetailsError) {
+                    console.log("ticketDetails error", ticketDetailsError);
+                    res.send("NOT OK");
+                  } else {
+                    for (var i = 0; i < ticketDetailsResult.length; i++) {
+                      let ticketDetailsRow = {};
+                      ticketDetailsRow["tdid"] = ticketDetailsResult[i]["tdid"];
+                      ticketDetailsRow["desc"] = ticketDetailsResult[i]["desc"];
+                      ticketDetailsRow["postedat"] =
+                        ticketDetailsResult[i]["postedat"];
+                      ticketDetailsRow["generatedby"] =
+                        ticketDetailsResult[i]["generatedby"];
+                      ticketDetailsRow["tid"] = ticketDetailsResult[i]["tid"];
+                      ticketDetails.push(ticketDetailsRow);
+                    }
+                    let data = {
+                      organizationId: id,
+                      projects: projects,
+                      tickets: tickets,
+                      ticketDetails: ticketDetails,
+                    };
+                    res.send(data);
+                  }
+                }
+              );
+            }
+          }
+        );
       }
     }
   );
 });
 
-app.post("/showEmployees", (req, res) => {
+app.post("/getEmployees", (req, res) => {
   const id = req.body.data;
   db.query(
     "SELECT " +
@@ -239,6 +320,66 @@ app.post("/raiseTicket", (request, response) => {
           response.send(row);
         }
       );
+    }
+  );
+});
+
+app.post("/getTickets", (request, response) => {
+  const { pid } = request.body.data;
+  db.query(
+    "SELECT" +
+      "`ticket`.`tid`," +
+      "`ticket`.`name`," +
+      "`ticket`.`summary`," +
+      "`ticket`.`description`," +
+      "`ticket`.`priority`," +
+      "`ticket`.`raised_date`," +
+      "`ticket`.`close_date`," +
+      "`ticket`.`project_id`" +
+      "FROM `resolver`.`ticket`" +
+      "where `ticket`.`project_id`=?",
+    [pid],
+    (error, result) => {}
+  );
+});
+
+app.post("/addTicketDetails", (request, response) => {
+  const { description, generatedBy, tid } = request.body.data;
+  db.query(
+    "INSERT INTO" +
+      "`resolver`.`ticketdetails`" +
+      "(`desc`,`generatedby`,`tid`)" +
+      "VALUES(?,?,?)",
+    [description, generatedBy, tid],
+    (error, result) => {
+      if (error) {
+        console.log(error);
+        return undefined;
+      } else {
+        return res.send("OK");
+      }
+    }
+  );
+});
+
+app.post("/getTicketDetails", (request, response) => {
+  const { tid } = request.body.data;
+  db.query(
+    "SELECT " +
+      "`ticketdetails`.`tdid`," +
+      "`ticketdetails`.`desc`," +
+      "`ticketdetails`.`postedat`," +
+      "`ticketdetails`.`generatedby`" +
+      "FROM `resolver`.`ticketdetails`" +
+      "where `ticketdetails`.`tid`=?" +
+      "order by `ticketdetails`.`postedat`",
+    [tid],
+    (error, result) => {
+      if (error) {
+        console.log(error);
+        return undefined;
+      } else {
+      }
     }
   );
 });
