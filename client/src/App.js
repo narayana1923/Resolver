@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import { Affix } from "antd";
 import Reg from "./screens/reg";
 import Navbar from "./components/navbar";
+import ViewTicket from "./screens/viewTicket";
 
 const App = () => {
   const email = localStorage.getItem("email");
@@ -29,6 +30,8 @@ const App = () => {
           <Route exact path="/addEmployee" element={<AddEmployee />} />
           <Route exact path="/viewProject" element={<ViewProject />} />
           <Route exact path="/raiseTicket" element={<RaiseTicket />} />
+          <Route exact path="/viewTicket" element={<ViewTicket />} />
+          <Route path="*" element={<div>Page Not Found</div>} />
         </Routes>
       </Router>
     </div>
