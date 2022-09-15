@@ -11,30 +11,39 @@ import {
   Col,
   Modal,
 } from "antd";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "antd/dist/antd.css";
 import "../css/viewProject.css";
 import { useState } from "react";
 import { putData } from "../store/api";
 import { raiseTicket } from "../constants/urls";
+import { useDispatch, useSelector } from "react-redux";
+import { addTicket } from "../store/slices/projectsDetailsSlice";
 
 const ViewProject = () => {
   const { state } = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { Content, Sider } = Layout;
   const [isModalOpen, setModalOpen] = useState(false);
   const [form] = Form.useForm();
   const { TextArea } = Input;
   const { Option } = Select;
+  const { tickets } = useSelector((state) => state.projectDetails.projectData);
+  const ticketData = tickets.filter((item) => item.project_id == state.pid);
+  console.log(ticketData);
   let summary = "";
   let description = "";
   const onFinish = async (values) => {
     const data = values;
     data["summary"] = summary;
     data["description"] = description;
-    data["projectId"] = 1;
+    data["projectId"] = state.pid;
     console.log(data);
     const response = await putData(raiseTicket, data);
     console.log(response);
+    if (response !== undefined) dispatch(addTicket(response));
+    setModalOpen(!isModalOpen);
   };
 
   const onFinishFailed = (err) => {
@@ -49,6 +58,9 @@ const ViewProject = () => {
   };
   const handleModal = () => {
     setModalOpen(!isModalOpen);
+  };
+  const handleTicket = (item) => {
+    navigate("/viewTicket", { state: item });
   };
 
   return (
@@ -67,30 +79,24 @@ const ViewProject = () => {
           </Sider>
           <Content style={{ padding: "0 24px" }}>
             <Row gutter={16}>
-              <Col span={12}>
-                <Card
-                  title={"Ticket Name"}
-                  style={{
-                    width: 300,
-                  }}
-                >
-                  <p>Card Details</p>
-                  <p>Card Details</p>
-                  <p>Card Details</p>
-                </Card>
-              </Col>
-              <Col span={12}>
-                <Card
-                  title={"Ticket Name"}
-                  style={{
-                    width: 300,
-                  }}
-                >
-                  <p>Card Details</p>
-                  <p>Card Details</p>
-                  <p>Card Details</p>
-                </Card>
-              </Col>
+              {ticketData.map((item) => {
+                return (
+                  <Col span={12}>
+                    <Card
+                      title={item.name}
+                      key={item.tid}
+                      style={{
+                        width: 300,
+                      }}
+                      onClick={() => handleTicket(item)}
+                    >
+                      <p>{item.summary}</p>
+                      <p>{item.description}</p>
+                      <p>{item.raised_date}</p>
+                    </Card>
+                  </Col>
+                );
+              })}
               <Col span={8}>
                 <Card
                   title="Raise Ticket"
@@ -121,6 +127,7 @@ const ViewProject = () => {
             <TextArea
               rows={4}
               placeholder="Enter summary of the ticket"
+              onLoad={handleDescription}
               onChange={handleSummary}
             />
           </Form.Item>
@@ -132,6 +139,7 @@ const ViewProject = () => {
             <TextArea
               rows={4}
               placeholder="Enter description of the ticket"
+              onLoad={handleDescription}
               onChange={handleDescription}
             />
           </Form.Item>

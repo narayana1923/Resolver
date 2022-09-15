@@ -30,7 +30,8 @@ const Loading = () => {
   }, [retryEmployeeDetails]);
 
   const changePage = () => {
-    navigate("/home");
+    // navigate("/home");
+    navigate("/allProjects");
   };
 
   return isProjectDetailsDataAvailable &&

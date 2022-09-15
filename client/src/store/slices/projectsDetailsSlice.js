@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import getAsyncThunk from "../createThunk";
 import initialState from "../initialState";
-import { showProjects } from "../../constants/urls";
+import { getProjects } from "../../constants/urls";
 
 export const getProjectDetails = getAsyncThunk(
   "getProjectDetails",
-  showProjects,
+  getProjects,
   localStorage.getItem("id")
 );
 const projectDetailsSlice = createSlice({
@@ -14,6 +14,12 @@ const projectDetailsSlice = createSlice({
   reducers: {
     addProject: (state, action) => {
       state.projectData.projects.push(action.payload);
+    },
+    addTicket: (state, action) => {
+      state.projectData.tickets.push(action.payload);
+    },
+    addTicketDetails: (state, action) => {
+      state.projectData.ticketDetails.push(action.payload);
     },
   },
   extraReducers: (builder) => {
@@ -28,6 +34,7 @@ const projectDetailsSlice = createSlice({
   },
 });
 
-export const { addProject } = projectDetailsSlice.actions;
+export const { addProject, addTicket, addTicketDetails } =
+  projectDetailsSlice.actions;
 
 export default projectDetailsSlice.reducer;

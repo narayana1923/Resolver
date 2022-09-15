@@ -12,15 +12,16 @@ import { Affix } from "antd";
 import Reg from "./screens/reg";
 import Navbar from "./components/navbar";
 import ViewTicket from "./screens/viewTicket";
+import AllProjects from "./screens/allProjects";
 
 const App = () => {
   const email = localStorage.getItem("email");
   return (
     <div className="App">
       <Router>
-        <Affix>
+        {/* <Affix>
           <Navbar />
-        </Affix>
+        </Affix> */}
         <Routes>
           <Route exact path="/" element={<Login />} />
           <Route exact path="/reg" element={<Reg />} />
@@ -31,6 +32,7 @@ const App = () => {
           <Route exact path="/viewProject" element={<ViewProject />} />
           <Route exact path="/raiseTicket" element={<RaiseTicket />} />
           <Route exact path="/viewTicket" element={<ViewTicket />} />
+          <Route exact path="/allProjects" element={<AllProjects />} />
           <Route path="*" element={<div>Page Not Found</div>} />
         </Routes>
       </Router>

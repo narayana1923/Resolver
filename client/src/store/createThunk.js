@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchData } from "./api";
 
-const getAsyncThunk = (type, dataURL, data) => {
+export const getAsyncThunk = (type, dataURL, data) => {
   return createAsyncThunk(type, async () => {
     const response = await fetchData(dataURL, data);
     if (response === undefined) {
