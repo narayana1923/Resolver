@@ -76,3 +76,23 @@ CREATE TABLE `resolver`.`project_assign` (
     REFERENCES `resolver`.`employee` (`empid`)
     ON DELETE CASCADE
   ON UPDATE CASCADE;);
+
+CREATE TABLE `resolver`.`ticketdetails` (
+  `tdid` INT NOT NULL AUTO_INCREMENT,
+  `desc` VARCHAR(120) NOT NULL,
+  `postedat` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+  `generatedby` INT NOT NULL,
+  `tid` INT NOT NULL,
+  PRIMARY KEY (`tdid`),
+  INDEX `Generated_By_idx` (`generatedby` ASC) VISIBLE,
+  INDEX `Ticket_Id_idx` (`tid` ASC) VISIBLE,
+  CONSTRAINT `Generated_By`
+    FOREIGN KEY (`generatedby`)
+    REFERENCES `resolver`.`employee` (`empid`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `Ticket_Id`
+    FOREIGN KEY (`tid`)
+    REFERENCES `resolver`.`ticket` (`tid`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
