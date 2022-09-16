@@ -13,6 +13,7 @@ import Reg from "./screens/reg";
 import Navbar from "./components/navbar";
 import ViewTicket from "./screens/viewTicket";
 import AllProjects from "./screens/allProjects";
+import AllTickets from "./screens/allTickets";
 
 const App = () => {
   const email = localStorage.getItem("email");
@@ -33,6 +34,7 @@ const App = () => {
           <Route exact path="/raiseTicket" element={<RaiseTicket />} />
           <Route exact path="/viewTicket" element={<ViewTicket />} />
           <Route exact path="/allProjects" element={<AllProjects />} />
+          <Route exact path="/allTickets" element={<AllTickets />} />
           <Route path="*" element={<div>Page Not Found</div>} />
         </Routes>
       </Router>

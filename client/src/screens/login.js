@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { storeUsername } from "../store/slices/loginSlice";
 import "../css/login.css";
+import { fetchData } from "../store/api";
+import { login } from "../constants/urls";
 
 const Login = () => {
   const [form] = Form.useForm();
@@ -15,17 +17,7 @@ const Login = () => {
 
   const onFinish = async (values) => {
     console.log(values);
-    const { data } = await Axios.post("http://localhost:3001/login", {
-      data: values,
-    })
-      .then((response) => {
-        console.log(response);
-        return response;
-      })
-      .catch((e) => {
-        console.log(e);
-        return undefined;
-      });
+    const data = await fetchData(login, values);
     if (data["status"] === "OK") {
       dispatch(storeUsername(data["email"]));
       localStorage.setItem("id", data["id"]);

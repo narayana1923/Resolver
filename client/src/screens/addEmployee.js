@@ -1,73 +1,161 @@
-import { Form, Input, Upload, Button } from "antd";
+import { Form, Input, Upload, Button, Switch } from "antd";
 import "antd/dist/antd.css";
 import { PlusOutlined, VerticalLeftOutlined } from "@ant-design/icons";
 import Axios from "axios";
+import { useState } from "react";
+import { putData } from "../store/api";
+import { addEmployee } from "../constants/urls";
 
-const AddEmployee = () => {
-  const [form] = Form.useForm();
+const AddEmployee = ({ handleModal, form }) => {
+  const [isBulkAdd, setBulkAdd] = useState(false);
 
   const onFinish = async (values) => {
-    const employeeFile = values.upload.fileList[0].originFileObj;
-    console.log(employeeFile);
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-      const res = [];
-      const data = reader.result.split("\n");
-      for (var i = 0; i < data.length; i++) {
-        const temp = data[i].split(",");
-        if (temp.length === 5) {
-          let obj = {
-            name: temp[1],
-            email: temp[2],
-            mobileNumber: temp[3],
-            role: temp[4],
-          };
-          res.push(obj);
+    console.log(values);
+    if (isBulkAdd === false) {
+      const res = [values];
+      const response = await putData(addEmployee, {
+        organizationId: localStorage.getItem("id"),
+        employeeData: res,
+      });
+    } else {
+      const employeeFile = values.upload.fileList[0].originFileObj;
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        const res = [];
+        const data = reader.result.split("\n");
+        for (var i = 1; i < data.length; i++) {
+          const temp = data[i].split(",");
+          if (temp.length === 5) {
+            let obj = {
+              name: temp[1],
+              email: temp[2],
+              mobileNumber: temp[3],
+              role: temp[4],
+            };
+            res.push(obj);
+          }
         }
-      }
-      Axios.post("http://localhost:3001/addEmployee", {
-        data: {
+        const response = await putData(addEmployee, {
           organizationId: localStorage.getItem("id"),
           employeeData: res,
-        },
-      })
-        .then((response) => {
-          console.log(response);
-          return response.data;
-        })
-        .catch((err) => {
-          console.log(err);
-          return undefined;
         });
-    };
-    reader.readAsText(employeeFile);
+        console.log(response);
+      };
+      reader.readAsText(employeeFile);
+    }
+    form.resetFields();
   };
 
   const onFinishFailed = (err) => {
     console.log(err);
   };
 
+  const handleBulkAdd = () => {
+    setBulkAdd(!isBulkAdd);
+  };
+
   return (
     <div>
-      Add Employee
-      <Form form={form} onFinish={onFinish} onFinishFailed={onFinishFailed}>
-        <Form.Item name="upload" label="upload">
-          <Upload listType="picture-card" accept=".csv">
-            <div>
-              <PlusOutlined />
-              <div
-                style={{
-                  marginTop: 8,
-                }}
+      <Form
+        form={form}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        layout="vertical"
+        size="middle"
+      >
+        <div className="flex w-ful justify-center mb-3">
+          <span className="font-bold mr-2">Bulk Add?</span>
+          <Switch
+            size="large"
+            checkedChildren="Yes"
+            unCheckedChildren="No"
+            onChange={handleBulkAdd}
+          />
+        </div>
+        {!isBulkAdd && (
+          <div>
+            <Form.Item>
+              <Form.Item
+                label="Email"
+                name="email"
+                rules={[{ required: true, message: "Please enter email!" }]}
               >
-                Upload
-              </div>
-            </div>
-          </Upload>
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Done
+                <Input size="large" placeholder="Enter email" />
+              </Form.Item>
+              <Form.Item
+                label="Name"
+                name="name"
+                rules={[{ required: true, message: "Please enter name!" }]}
+              >
+                <Input size="large" placeholder="Enter name" />
+              </Form.Item>
+              <Form.Item
+                label="Role"
+                name="role"
+                rules={[{ required: true, message: "Please enter role!" }]}
+              >
+                <Input size="large" placeholder="Enter role" />
+              </Form.Item>
+              <Form.Item
+                label="Mobile number"
+                name="mobileNumber"
+                rules={[
+                  { required: true, message: "Please enter mobile number!" },
+                ]}
+              >
+                <Input placeholder="Enter mobile number" />
+              </Form.Item>
+            </Form.Item>
+          </div>
+        )}
+        {isBulkAdd && (
+          <div>
+            <Form.Item
+              name="upload"
+              label="Upload CSV file: "
+              className="flex w-ful justify-center font-bold"
+            >
+              <Upload
+                listType="picture-card"
+                accept=".csv"
+                className="font-normal"
+                multiple={false}
+              >
+                <div>
+                  <PlusOutlined />
+                  <div
+                    style={{
+                      marginTop: 8,
+                    }}
+                  >
+                    Upload
+                  </div>
+                </div>
+              </Upload>
+            </Form.Item>
+            <span
+              style={{
+                position: "relative",
+                top: -20,
+              }}
+              className="font-bold text-gray-400 text-capitalize flex w-ful justify-center"
+            >
+              Upload CSV file with columns
+            </span>
+            <span
+              style={{
+                position: "relative",
+                top: -20,
+              }}
+              className="font-bold text-gray-400 text-capitalize flex w-ful justify-center"
+            >
+              name, email, mobile number, role
+            </span>
+          </div>
+        )}
+        <Form.Item className="flex w-ful justify-center">
+          <Button onClick={handleModal} type="primary" htmlType="submit">
+            Add Employee{isBulkAdd && "s"}
           </Button>
         </Form.Item>
       </Form>

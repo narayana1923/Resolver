@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProjectDetails } from "../store/slices/projectsDetailsSlice";
 import { getEmployeeDetails } from "../store/slices/employeeDetailsSlice";
-import Home from "./home";
 import { useNavigate } from "react-router-dom";
 
 const Loading = () => {
@@ -30,8 +29,8 @@ const Loading = () => {
   }, [retryEmployeeDetails]);
 
   const changePage = () => {
-    // navigate("/home");
-    navigate("/allProjects");
+    navigate("/home");
+    // navigate("/allProjects");
   };
 
   return isProjectDetailsDataAvailable &&

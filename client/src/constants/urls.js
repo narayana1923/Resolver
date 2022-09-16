@@ -4,3 +4,4 @@ export const register = "register";
 export const getProjects = "getProjects";
 export const getEmployees = "getEmployees";
 export const raiseTicket = "raiseTicket";
+export const addEmployee = "addEmployee";
