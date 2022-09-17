@@ -8,14 +8,20 @@ import { BsFillChatSquareDotsFill, BsFillBarChartFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import AddEmployee from "../screens/addEmployee";
 import { Form, Modal } from "antd";
+import { useDispatch } from "react-redux";
+import { logout } from "../store/slices/loginSlice";
 
 const Navbar = () => {
   const [form] = Form.useForm();
   const [isModalOpen, setModalOpen] = useState(false);
-
+  const dispatch = useDispatch();
   const handleModal = () => {
     form.resetFields();
     setModalOpen(!isModalOpen);
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
   };
 
   return (
@@ -44,8 +50,8 @@ const Navbar = () => {
               Add Members
             </Sidebar.Item>
           </Sidebar.ItemGroup>
-          <Sidebar.ItemGroup>
-            <Sidebar.Item href="#" icon={FaSignOutAlt}>
+          <Sidebar.ItemGroup onClick={handleLogout}>
+            <Sidebar.Item href="/" icon={FaSignOutAlt}>
               Log Out
             </Sidebar.Item>
           </Sidebar.ItemGroup>

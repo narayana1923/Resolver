@@ -31,6 +31,7 @@ const Registration = ({ form, handleModal }) => {
       <Form.Item
         name="name"
         label="Name"
+        
         rules={[
           {
             required: true,

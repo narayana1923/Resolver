@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProjectDetails } from "../store/slices/projectsDetailsSlice";
 import { getEmployeeDetails } from "../store/slices/employeeDetailsSlice";
 import { useNavigate } from "react-router-dom";
+import { Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const Loading = () => {
   const navigate = useNavigate();
@@ -38,7 +40,14 @@ const Loading = () => {
     changePage() ? (
     <></>
   ) : (
-    <div>Loading..........</div>
+    <div>
+      <div className="flex w-ful justify-center mt-4">
+        <Spin indicator={<LoadingOutlined style={{ fontSize: 34 }} />} />
+      </div>
+      <div className="flex w-ful justify-center mt-3 text-primary font-bold ant-typography-h4">
+        Loading... Please wait
+      </div>
+    </div>
   );
 };
 

@@ -40,7 +40,6 @@ const OverView = () => {
     // data["email"] = email;
     console.log(values);
     const response = await putData(createProject, data);
-    console.log(response);
     if (response !== undefined) dispatch(addProject(response));
   };
 
@@ -60,22 +59,38 @@ const OverView = () => {
       <div className="stats flex  space-x-6 ">
         <StatCard
           title="Completed Projects"
-          value={projects.filter((item) => item.status === "completed").length}
+          value={
+            projects !== undefined
+              ? projects.filter((item) => item.status === "completed").length
+              : 0
+          }
           icon={<FaCheckCircle size={48} className="" color="green" />}
         />
         <StatCard
           title="In Progress"
-          value={projects.filter((item) => item.status === "open").length}
+          value={
+            projects !== undefined
+              ? projects.filter((item) => item.status === "open").length
+              : 0
+          }
           icon={<MdPendingActions size={48} className="" color="amber" />}
         />
         <StatCard
           title="Tickets Resolved"
-          value={tickets.filter((item) => item.status === "close").length}
+          value={
+            projects !== undefined
+              ? tickets.filter((item) => item.status === "close").length
+              : 0
+          }
           icon={<FaStopCircle size={48} className="" color="red" />}
         />
         <StatCard
           title="Tickets Active"
-          value={tickets.filter((item) => item.status === "open").length}
+          value={
+            projects !== undefined
+              ? tickets.filter((item) => item.status === "open").length
+              : 0
+          }
           icon={<FaBug size={48} className="" color="brown" />}
         />
       </div>

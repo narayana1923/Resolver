@@ -28,7 +28,6 @@ const projectDetailsSlice = createSlice({
     });
     builder.addCase(getProjectDetails.fulfilled, (state, action) => {
       state.isProjectDetailsDataAvailable = true;
-      console.log(action.payload);
       state.projectData = action.payload;
     });
   },

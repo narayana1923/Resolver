@@ -15,8 +15,8 @@ const Login = ({ handleModal, form }) => {
   const password = "nara";
   const navigate = useNavigate();
   const onFinish = async (values) => {
-    console.log(values);
     const data = await fetchData(login, values);
+    console.log("Login Data", data);
     if (data["status"] === "OK") {
       dispatch(storeUsername(data["email"]));
       localStorage.setItem("id", data["id"]);

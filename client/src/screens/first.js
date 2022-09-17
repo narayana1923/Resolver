@@ -31,15 +31,22 @@ const First = () => {
 
       <div className="first-flex-container">
         <div className="first-flex-child magenta">
-          <div className="first-content">
+          <div className="first-content mt-4 ml-4 ant-typography-h5">
             {/* <h1>Resolver</h1> */}
-            <h3 className="first-one">
+            <h3 className="first-one font-bold">
               Worrying about bugs in your software..?
             </h3>
             <br></br>
-            <h3 className="first-one">Don't know how to solve them </h3>
-            <br></br>
-            {/* <h3 className ="two">You were in the right place</h3>
+            <h3 className="first-one font-bold ml-4">
+              Don't know how to monitor them{" "}
+            </h3>
+            <h3
+              className="first-one font-bold ml-6 text-white"
+              style={{ marginTop: 30 }}
+            >
+              You are in the right place!!
+            </h3>
+            {/* 
         <p>Record bugs easily, and track them based on desired criteria. Create custom views for your issue</p>
            <p>tracking software to focus on bugs that are the most time sensitive. See how many bugs have </p>
            <p>been logged, if they've been resolved, and more with reports.</p> */}

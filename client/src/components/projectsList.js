@@ -32,44 +32,46 @@ const ProjectList = () => {
         </Table.Head>
 
         <Table.Body className="divide-y">
-          {projects.slice(0, 5).map((item) => {
-            return (
-              <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  {item.name}
-                </Table.Cell>
-                <Table.Cell>
-                  {
-                    tickets.filter((ticket) => {
-                      return (
-                        ticket.project_id === item.pid &&
-                        ticket.status === "open"
-                      );
-                    }).length
-                  }
-                </Table.Cell>
-                <Table.Cell>
-                  {
-                    tickets.filter((ticket) => {
-                      return (
-                        ticket.project_id === item.pid &&
-                        ticket.status === "close"
-                      );
-                    }).length
-                  }
-                </Table.Cell>
-                <Table.Cell>{item.assignedEmployees.length}</Table.Cell>
-                <Table.Cell>
-                  <span
-                    onClick={() => handleProject(item)}
-                    className="font-medium text-blue-600 hover:underline dark:text-blue-500"
-                  >
-                    Open
-                  </span>
-                </Table.Cell>
-              </Table.Row>
-            );
-          })}
+          {projects !== undefined &&
+            projects.slice(0, 5).map((item) => {
+              return (
+                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                    {item.name}
+                  </Table.Cell>
+                  <Table.Cell>
+                    {
+                      tickets.filter((ticket) => {
+                        return (
+                          ticket.project_id === item.pid &&
+                          ticket.status === "open"
+                        );
+                      }).length
+                    }
+                  </Table.Cell>
+                  <Table.Cell>
+                    {
+                      tickets.filter((ticket) => {
+                        return (
+                          ticket.project_id === item.pid &&
+                          ticket.status === "close"
+                        );
+                      }).length
+                    }
+                  </Table.Cell>
+                  <Table.Cell>{item.assignedEmployees.length}</Table.Cell>
+                  <Table.Cell>
+                    <span
+                      onClick={() => handleProject(item)}
+                      style={{ cursor: "pointer" }}
+                      className="font-medium text-blue-600 hover:underline dark:text-blue-500"
+                    >
+                      Open
+                    </span>
+                  </Table.Cell>
+                </Table.Row>
+              );
+            })}
           {/* <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
               <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                 Sitara
