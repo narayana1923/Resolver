@@ -39,6 +39,7 @@ const AllProjects = () => {
 
   const handleProject = (item) => {
     navigate("/viewProject", { state: item });
+    // navigate("/tempViewProject", { state: item });
   };
 
   const handleModal = () => {

@@ -74,8 +74,11 @@ app.post("/register", (req, res) => {
     "INSERT INTO `resolver`.`organization`(`email`,`name`,`mobile_number`,`password`)VALUES(?,?,?,?)",
     [email, name, mobileNumber, password],
     (err, result) => {
-      if (err) console.log(err);
-      else res.send("User Registered");
+      if (err){
+        console.log(err);
+        res.send("Not Ok");
+      }
+      else res.send("Ok");
     }
   );
 });
@@ -308,19 +311,26 @@ app.post("/raiseTicket", (request, response) => {
       "VALUES(?,?,?,?,curdate(),?,?)",
     [name, summary, description, priority, closeDate, projectId],
     (err, result) => {
-      if (err) return undefined;
+      if (err) {
+        console.log(error);
+        response.send("Not Ok");
+      }
       console.log("data", result.insertId);
       db.query(
         "SELECT * FROM `resolver`.`ticket` where tid =?",
         [result.insertId],
         (error, innerResult) => {
-          if (error) return undefined;
+          if (error) {
+            console.log(error);
+            response.send("Not Ok");
+          }
           console.log(innerResult);
           let row = {};
           row["tid"] = innerResult[0]["tid"];
           row["name"] = innerResult[0]["name"];
           row["summary"] = innerResult[0]["summary"];
           row["priority"] = innerResult[0]["priority"];
+          row["description"] = innerResult[0]["description"];
           row["raised_date"] = innerResult[0]["raised_date"];
           row["close_date"] = innerResult[0]["close_date"];
           row["project_id"] = innerResult[0]["project_id"];
