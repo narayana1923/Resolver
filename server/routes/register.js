@@ -2,8 +2,8 @@ const { Router } = require("express");
 const db = require("../database");
 
 const router = Router();
-router.post("/register", (req, res) => {
-  const { data } = req.body;
+router.post("/", (request, response) => {
+  const { data } = request.body;
   const { email, name, password, confirmPassword, mobileNumber } = data;
   db.query(
     "INSERT INTO `resolver`.`organization`(`email`,`name`,`mobile_number`,`password`)VALUES(?,?,?,?)",
@@ -11,8 +11,10 @@ router.post("/register", (req, res) => {
     (err, result) => {
       if (err) {
         console.log(err);
-        res.send("Not Ok");
-      } else res.send("Ok");
+        return response.status(500).send("Oops something went wrong");
+      } else {
+        return response.status(200).send("Registered Successfully");
+      }
     }
   );
 });

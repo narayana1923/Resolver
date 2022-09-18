@@ -3,55 +3,54 @@ const db = require("../database");
 
 const router = Router();
 
-router.post("/login", (req, res) => {
-  const { data } = req.body;
+router.post("/", (request, response) => {
+  const { data } = request.body;
   const { email, password } = data;
-  var loginData = {};
   db.query(
     "select * from resolver.organization where email=?",
     [email],
-    (err, result) => {
-      if (err) console.log(err);
-      else {
-        if (result.length === 0 || password !== result[0].password) {
-          db.query(
-            "select * from resolver.organization where email=?",
-            [email],
-            (error, innerResult) => {
-              if (
-                error ||
-                innerResult.length === 0 ||
-                password !== innerResult[0].password
-              ) {
-                const loginData = {
-                  status: "NOT OK",
-                };
-                return;
-              }
-              let temp = result[0];
-              loginData = {
-                status: "OK",
-                id: temp.id,
-                email: temp.email,
-                name: temp.name,
-                mobileNumber: temp.mobile_number,
-                userType: "employee",
-              };
-            }
-          );
-        } else if (password === result[0].password) {
+    (error, result) => {
+      if (error) {
+        console.log(error);
+        return response.status(500).send("Oops something went wrong");
+      } else {
+        if (result.length !== 0 && password === result[0].password) {
           let temp = result[0];
-          loginData = {
-            status: "OK",
+          const loginData = {
             id: temp.id,
             email: temp.email,
             name: temp.name,
             mobileNumber: temp.mobile_number,
             userType: "organization",
           };
+          return response.status(200).send(loginData);
+        } else {
+          db.query(
+            "select * from resolver.employee where email=?",
+            [email],
+            (innerError, innerResult) => {
+              if (innerError) {
+                response.status(500).send("Oops something went wrong");
+              } else if (
+                innerResult.length !== 0 &&
+                password === innerResult[0].password
+              ) {
+                let temp = innerResult[0];
+                const loginData = {
+                  id: temp.id,
+                  email: temp.email,
+                  name: temp.name,
+                  mobileNumber: temp.mobile_number,
+                  userType: "employee",
+                };
+                return response.status(200).send(loginData);
+              } else {
+                return response.status(403).send("Invalid username/password");
+              }
+            }
+          );
         }
       }
-      res.send(loginData);
     }
   );
 });

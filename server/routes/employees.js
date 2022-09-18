@@ -3,8 +3,8 @@ const db = require("../database");
 
 const router = Router();
 
-router.post("/getEmployees", (req, res) => {
-  const id = req.body.data;
+router.get("/", (request, response) => {
+  const { organizationId } = request.body.data;
   db.query(
     "SELECT " +
       "`employee`.`empid`," +
@@ -13,10 +13,12 @@ router.post("/getEmployees", (req, res) => {
       "`employee`.`mobile_number`," +
       "`employee`.`role`" +
       "FROM `resolver`.`employee` where organization_id=?",
-    [id],
-    (err, result) => {
-      if (err) return res.send("Not OK");
-      else {
+    [organizationId],
+    (error, result) => {
+      if (error) {
+        console.log(error);
+        return response.status(500).send("Oops Something went wrong");
+      } else {
         let employees = [];
         for (var i = 0; i < result.length; i++) {
           let row = {};
@@ -28,18 +30,17 @@ router.post("/getEmployees", (req, res) => {
           employees.push(row);
         }
         let data = {
-          organizationId: id,
+          organizationId: organizationId,
           employees: employees,
         };
-        return res.send(data);
+        return response.status(200).send(data);
       }
     }
   );
 });
 
-router.post("/addEmployee", (request, response) => {
+router.post("/", (request, response) => {
   const { organizationId, employeeData } = request.body.data;
-  console.log(organizationId, employeeData);
   let insertString = "";
   for (var i = 0; i < employeeData.length; i++) {
     const temp = employeeData[i];
@@ -54,13 +55,13 @@ router.post("/addEmployee", (request, response) => {
       "(`name`,`email`,`mobile_number`,`role`,`organization_id`)" +
       `VALUES${insertString}`,
     [],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-        res.send("NOT OK");
+    (error, result) => {
+      if (error) {
+        console.log(error);
+        return response.status(500).send("Oops something went wrong");
+      } else {
+        return response.status(200).send("Successfully Added the employees");
       }
-      console.log(result);
-      response.send("OK");
     }
   );
 });

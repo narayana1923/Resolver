@@ -2,21 +2,21 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const PORT = 3001;
-const employeeRoute = require("./routes/employee");
+const employeesRoute = require("./routes/employees");
 const loginRoute = require("./routes/login");
-const projectRoute = require("./routes/project");
+const projectsRoute = require("./routes/projects");
 const registerRoute = require("./routes/register");
-const ticketRoute = require("./routes/ticket");
+const ticketsRoute = require("./routes/tickets");
 const ticketDetailsRoute = require("./routes/ticketDetails");
 
 app.use(cors());
 app.use(express.json());
-app.use("/employee", employeeRoute);
 app.use("/login", loginRoute);
-app.use("/project", projectRoute);
 app.use("/register", registerRoute);
-app.use("/ticket", ticketRoute);
-app.use("/ticketDetails", ticketDetailsRoute);
+app.use("/employees", employeesRoute);
+app.use("/projects", projectsRoute);
+app.use("/tickets", ticketsRoute);
+app.use("/ticket-details", ticketDetailsRoute);
 
 app.listen(PORT, () => {
   console.log("server is working");
