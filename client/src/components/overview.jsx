@@ -112,6 +112,7 @@ const OverView = () => {
         open={isModalOpen}
         footer={[]}
         onCancel={handleModal}
+        centered
       >
         <Form
           form={form}

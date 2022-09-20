@@ -209,6 +209,7 @@ const ViewProject = () => {
         open={isModalOpen}
         footer={[]}
         onCancel={handleModal}
+        centered
       >
         <Form form={form} onFinish={onFinish} onFinishFailed={onFinishFailed}>
           <Form.Item label="Name" name="name" initialValue="dummy">

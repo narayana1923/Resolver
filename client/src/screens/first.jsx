@@ -83,6 +83,7 @@ const First = () => {
         open={isLoginModalOpen}
         onCancel={handleLoginModal}
         footer={[]}
+        centered
       >
         <Login handleModal={handleLoginModal} form={form} />
       </Modal>
@@ -91,6 +92,7 @@ const First = () => {
         open={isRegistrationModalOpen}
         onCancel={handleRegistrationModal}
         footer={[]}
+        centered
       >
         <Registration handleModal={handleRegistrationModal} form={form} />
       </Modal>

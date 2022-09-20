@@ -3,8 +3,8 @@ import reactLogo from "../assets/react.svg";
 
 import { Sidebar } from "flowbite-react";
 
-import { FaBug, FaCog, FaBolt, FaRocket, FaSignOutAlt } from "react-icons/fa";
-import { BsFillChatSquareDotsFill, BsFillBarChartFill } from "react-icons/bs";
+import { FaBug, FaCog, FaBolt, FaSignOutAlt } from "react-icons/fa";
+import { BsFillBarChartFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import AddEmployee from "../screens/addEmployee";
 import { Form, Modal } from "antd";
@@ -25,7 +25,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="sticky top-0 rounded-md max-h-screen shadow">
+    <div className="fixed top-0 rounded-md h-screen shadow">
       <Sidebar aria-label="Sidebar with logo branding example">
         <Sidebar.Logo href="#" img={reactLogo} imgAlt="Flowbite logo">
           Resolver
@@ -62,6 +62,8 @@ const Navbar = () => {
         open={isModalOpen}
         footer={[]}
         onCancel={handleModal}
+        centered
+        className="ml-5"
       >
         <AddEmployee handleModal={handleModal} form={form} />
       </Modal>

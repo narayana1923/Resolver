@@ -3,6 +3,7 @@ import "antd/dist/antd.css";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import ProjectCard from "../components/projectCard";
 import Navbar from "../components/navbar";
 import { createProject } from "../constants/urls";
 import { putData } from "../store/api";
@@ -47,55 +48,39 @@ const AllProjects = () => {
   };
 
   return (
-    <div className="flex m-h-screen bg-gray-100">
+    <div className="flex h-screen bg-gray-100">
       <Navbar />
-      <div className="flex-grow">
+      <div style={{ marginLeft: "18vw" }} className="flex-grow">
         <div className=" bg-wh-500">
-          <div className="ml-6">
-            <Row gutter={24} className="ml-2">
+          <div className="ml-2">
+            <Row gutter={24} className="ml-1">
+              {/* <ProjectCard /> */}
               {projects.map((item) => {
+                let activeCount = 0;
+                const totalCount = tickets.filter((ticket) => {
+                  if (ticket.project_id == item.pid) {
+                    activeCount++;
+                    return true;
+                  }
+                }).length;
                 return (
                   <Col
                     className="mt-4"
                     onClick={() => handleProject(item)}
                     key={item.pid}
                     span={8}
+                    style={{
+                      cursor: "pointer",
+                    }}
                   >
-                    <Card
-                      title={item.name}
-                      style={{
-                        width: 300,
-                        borderWidth: 2,
-                        cursor: "pointer",
-                        // backgroundImage: "url(assets/card-background.jpg)",
-                        // backgroundSize: "cover",
-                        // color: "white",
-                      }}
-                      // headStyle={{ color: "white" }}
-                      className="shadow-sm"
-                    >
-                      <p>Project Id: {item.pid}</p>
-                      <p>
-                        Status:{" "}
-                        <span className="text-success">{item.status}</span>
-                      </p>
-                      <p>
-                        Total no. of employees:{" "}
-                        <span className="text-primary">
-                          {item.assignedEmployees.length}
-                        </span>
-                      </p>
-                      <p>
-                        Number of tickets:{" "}
-                        <span className="text-primary">
-                          {
-                            tickets.filter(
-                              (ticket) => ticket.project_id == item.pid
-                            ).length
-                          }
-                        </span>
-                      </p>
-                    </Card>
+                    <ProjectCard
+                      projectId={item.pid}
+                      projectName={item.name}
+                      projectStatus={item.status}
+                      employeeCount={item.assignedEmployees.length}
+                      activeTickets={activeCount}
+                      resolvedTickets={totalCount - activeCount}
+                    />
                   </Col>
                 );
               })}
