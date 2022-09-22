@@ -16,8 +16,7 @@ const Login = ({ handleModal, form }) => {
   const navigate = useNavigate();
   const onFinish = async (values) => {
     const data = await fetchData(login, values);
-    console.log("Login Data", data);
-    if (data["status"] === "OK") {
+    if (data !== undefined) {
       dispatch(storeUsername(data["email"]));
       localStorage.setItem("id", data["id"]);
       localStorage.setItem("userType", data["userType"]);

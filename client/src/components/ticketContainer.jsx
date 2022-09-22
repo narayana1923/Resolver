@@ -1,4 +1,4 @@
-import { Form, Modal } from "antd";
+import { Form, Modal, Tooltip } from "antd";
 import { useSelector } from "react-redux";
 import RaiseTicket from "../screens/raiseTicket";
 import TicketCard from "./ticketCard";
@@ -26,24 +26,31 @@ const TicketContainer = ({ priority, tickets, projectData }) => {
           <span className="flex items-center justify-center w-5 h-5 ml-2 text-sm font-semibold text-indigo-500 bg-white rounded bg-opacity-30">
             {tickets.length}
           </span>
-          <button
-            onClick={handleModal}
-            className="flex items-center justify-center w-6 h-6 ml-auto text-indigo-500 rounded hover:bg-indigo-500 hover:text-indigo-100"
+          <Tooltip
+            placement="bottom"
+            trigger="hover"
+            title="Raise Issue"
+            arrowPointAtCenter={false}
           >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+            <button
+              onClick={handleModal}
+              className="flex items-center justify-center w-6 h-6 ml-auto text-indigo-500 rounded hover:bg-indigo-500 hover:text-indigo-100"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-              ></path>
-            </svg>
-          </button>
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                ></path>
+              </svg>
+            </button>
+          </Tooltip>
         </div>
         {tickets.slice(0, 3).map((ticket) => {
           let ticketDetailsData = ticketDetails.filter(

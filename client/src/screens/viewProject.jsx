@@ -69,7 +69,10 @@ const TempViewProject = () => {
     <div>
       <div className="flex h-screen bg-gray-100">
         <Navbar />
-        <div style={{ marginLeft: "18vw" }} className="flex-grow">
+        <div
+          style={{ marginLeft: "18vw" }}
+          className="flex-grow overflow-y-auto overflow-x-hidden"
+        >
           <div className=" bg-wh-500 p-4">
             <ProjectTickets projectData={state} />
           </div>

@@ -50,58 +50,60 @@ const AllProjects = () => {
   return (
     <div className="flex h-screen bg-gray-100">
       <Navbar />
-      <div style={{ marginLeft: "18vw" }} className="flex-grow">
-        <div className=" bg-wh-500">
-          <div className="ml-2">
-            <Row gutter={24} className="ml-1">
-              {/* <ProjectCard /> */}
-              {projects.map((item) => {
-                let activeCount = 0;
-                const totalCount = tickets.filter((ticket) => {
-                  if (ticket.project_id == item.pid) {
-                    activeCount++;
-                    return true;
-                  }
-                }).length;
-                return (
-                  <Col
-                    className="mt-4"
-                    onClick={() => handleProject(item)}
-                    key={item.pid}
-                    span={8}
-                    style={{
-                      cursor: "pointer",
-                    }}
-                  >
-                    <ProjectCard
-                      projectId={item.pid}
-                      projectName={item.name}
-                      projectStatus={item.status}
-                      employeeCount={item.assignedEmployees.length}
-                      activeTickets={activeCount}
-                      resolvedTickets={totalCount - activeCount}
-                    />
-                  </Col>
-                );
-              })}
-              <Card
-                title="Create Project"
-                style={{
-                  width: 300,
-                  borderWidth: 2,
-                  backgroundColor: "red",
-                }}
-                headStyle={{
-                  backgroundColor: "white",
-                }}
-                className="shadow-sm mt-4"
-              >
-                <Button type="primary" onClick={handleModal}>
-                  Create Project
-                </Button>
-              </Card>
-            </Row>
-            {/* <div className="px-2 py-2 grid grid-rows-6 grid-flow-col grid-cols-3 gap-2">
+      <div style={{ marginLeft: "18vw" }} className="flex-grow overflow-y-auto overflow-x-hidden">
+        <div className="bg-wh-500 p-2">
+          <div>
+            <h1 className="text-5xl font-semibold mt-4 ml-4">All Projects</h1>
+            <div className="ml-2">
+              <Row gutter={24} className="ml-2">
+                {/* <ProjectCard /> */}
+                {projects.map((item) => {
+                  let activeCount = 0;
+                  const totalCount = tickets.filter((ticket) => {
+                    if (ticket.project_id == item.pid) {
+                      activeCount++;
+                      return true;
+                    }
+                  }).length;
+                  return (
+                    <Col
+                      className="mb-4"
+                      onClick={() => handleProject(item)}
+                      key={item.pid}
+                      span={8}
+                      style={{
+                        cursor: "pointer",
+                      }}
+                    >
+                      <ProjectCard
+                        projectId={item.pid}
+                        projectName={item.name}
+                        projectStatus={item.status}
+                        employeeCount={item.assignedEmployees.length}
+                        activeTickets={activeCount}
+                        resolvedTickets={totalCount - activeCount}
+                      />
+                    </Col>
+                  );
+                })}
+                <Card
+                  title="Create Project"
+                  style={{
+                    width: 300,
+                    borderWidth: 2,
+                    backgroundColor: "red",
+                  }}
+                  headStyle={{
+                    backgroundColor: "white",
+                  }}
+                  className="shadow-sm mt-4"
+                >
+                  <Button type="primary" onClick={handleModal}>
+                    Create Project
+                  </Button>
+                </Card>
+              </Row>
+              {/* <div className="px-2 py-2 grid grid-rows-6 grid-flow-col grid-cols-3 gap-2">
                 {projects.map((item) => {
                   return (
                     <div
@@ -165,59 +167,60 @@ const AllProjects = () => {
                 </Card>
               </div> */}
 
-            <Modal
-              title="Create Project"
-              open={isModalOpen}
-              footer={[]}
-              onCancel={handleModal}
-            >
-              <Form
-                form={form}
-                name="createProject"
-                layout="vertical"
-                onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
-                size="middle"
+              <Modal
+                title="Create Project"
+                open={isModalOpen}
+                footer={[]}
+                onCancel={handleModal}
               >
-                <Form.Item label="Name" name="name" initialValue="nara">
-                  <Input placeholder="Enter name" />
-                </Form.Item>
-                <Form.Item
-                  label="Expected End Date"
-                  name="expectedEndDate"
-                  initialValue="2022-12-12"
+                <Form
+                  form={form}
+                  name="createProject"
+                  layout="vertical"
+                  onFinish={onFinish}
+                  onFinishFailed={onFinishFailed}
+                  size="middle"
                 >
-                  <Input placeholder="Enter expected end data" type="date" />
-                </Form.Item>
-                <Form.Item label="employees" name="employees">
-                  <Select
-                    placeholder="Select Employees for project"
-                    mode="multiple"
-                    showArrow={true}
-                    showSearch={true}
-                    maxTagCount={5}
-                    maxTagTextLength={10}
+                  <Form.Item label="Name" name="name" initialValue="nara">
+                    <Input placeholder="Enter name" />
+                  </Form.Item>
+                  <Form.Item
+                    label="Expected End Date"
+                    name="expectedEndDate"
+                    initialValue="2022-12-12"
                   >
-                    {employees.map((item) => {
-                      return (
-                        <Option key={item.empid} value={item.empid}>
-                          {item.email}
-                        </Option>
-                      );
-                    })}
-                  </Select>
-                </Form.Item>
-                <Form.Item>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    onClick={handleModal}
-                  >
-                    Create Project
-                  </Button>
-                </Form.Item>
-              </Form>
-            </Modal>
+                    <Input placeholder="Enter expected end data" type="date" />
+                  </Form.Item>
+                  <Form.Item label="employees" name="employees">
+                    <Select
+                      placeholder="Select Employees for project"
+                      mode="multiple"
+                      showArrow={true}
+                      showSearch={true}
+                      maxTagCount={5}
+                      maxTagTextLength={10}
+                    >
+                      {employees.map((item) => {
+                        return (
+                          <Option key={item.empid} value={item.empid}>
+                            {item.email}
+                          </Option>
+                        );
+                      })}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      onClick={handleModal}
+                    >
+                      Create Project
+                    </Button>
+                  </Form.Item>
+                </Form>
+              </Modal>
+            </div>
           </div>
         </div>
       </div>

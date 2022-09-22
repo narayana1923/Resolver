@@ -14,18 +14,18 @@ const ProjectCard = ({
   return (
     <div
       //   style={{ backgroundColor: color }}
-      className="flex flex-row  w-100 h-100 shadow border border-2 rounded-2 bg-green-100 text-green-700"
+      className="flex flex-row w-100 h-100 shadow-sm border border-2 rounded rounded-4 bg-white duration-200 hover:scale-105 hover:shadow-xl hover:border hover:border-4"
     >
       <div
         style={{ minWidth: 140 }}
-        className="flex flex-col px-4 py-6 mt-4 font-bold text-5xl"
+        className="flex flex-col px-4 py-6 mt-4 font-bold text-5xl position-relative left-3"
       >
-        {projectId}00
+        {projectId}
       </div>
       <div className="flex flex-col py-6">
         <h1
           style={{ fontSize: 30 }}
-          className="font-bold ml-1 position-relative top-2 text-green-900"
+          className="font-bold ml-1 position-relative top-2 "
         >
           {projectName}
         </h1>
