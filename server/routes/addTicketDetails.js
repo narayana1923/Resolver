@@ -6,11 +6,13 @@ const router = Router();
 router.post("/", (request, response) => {
   const { description, employeeId, ticketId } = request.body.data;
   db.query(
-    "INSERT INTO" +
-      "`resolver`.`ticketdetails`" +
-      "(`desc`,`generatedby`,`tid`)" +
-      "VALUES(?,?,?)",
-    [description, employeeId, ticketId],
+    "INSERT INTO `resolver`.`ticketdetails`" +
+      "(`desc`," +
+      "`tid`," +
+      "`eid`)" +
+      "VALUES(" +
+      "?,?,?)",
+    [description, ticketId,employeeId],
     (error, result) => {
       if (error) {
         console.log(error);
@@ -24,14 +26,13 @@ router.post("/", (request, response) => {
               console.log(innerError);
               response.status(500).send("Oops something went wrong");
             } else {
-              console.log(innerResult);
               let row = {};
               row["tdid"] = innerResult[0]["tdid"];
               row["desc"] = innerResult[0]["desc"];
               row["postedat"] = innerResult[0]["postedat"];
-              row["generatedby"] = innerResult[0]["generatedby"];
+              row["eid"] = innerResult[0]["eid"];
               row["tid"] = innerResult[0]["tid"];
-              return response.status(200).send({ ticketDetails: row });
+              return response.status(200).send(row);
             }
           }
         );
