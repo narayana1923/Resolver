@@ -7,9 +7,7 @@ import { useState } from "react";
 const TicketContainer = ({ priority, tickets, projectData }) => {
   const [form] = Form.useForm();
   const [isModalOpen, setModalOpen] = useState(false);
-  const { ticketDetails } = useSelector(
-    (state) => state.projectDetails.projectData
-  );
+  const [initialTickets, setInitialTickets] = useState(tickets);
 
   const handleModal = () => {
     form.resetFields();
@@ -52,21 +50,25 @@ const TicketContainer = ({ priority, tickets, projectData }) => {
             </button>
           </Tooltip>
         </div>
-        {tickets.slice(0, 3).map((ticket) => {
-          let ticketDetailsData = ticketDetails.filter(
-            (item) => item.tid === ticket.tid
-          );
+        {initialTickets.slice(0, 3).map((ticket) => {
           return (
-            <TicketCard ticket={ticket} ticketDetails={ticketDetailsData} />
+            <TicketCard ticket={ticket} ticketDetails={ticket.ticketDetails} />
           );
         })}
       </div>
-      <Modal open={isModalOpen} footer={[]} onCancel={handleModal}>
+      <Modal
+        title="Raise Ticket"
+        open={isModalOpen}
+        footer={[]}
+        onCancel={handleModal}
+        centered
+      >
         <RaiseTicket
           handleModal={handleModal}
           form={form}
           priority={priority.toLowerCase()}
           projectData={projectData}
+          setInitialTickets={setInitialTickets}
         />
       </Modal>
     </div>

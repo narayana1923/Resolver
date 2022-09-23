@@ -7,7 +7,6 @@ export const fetchData = async (dataURL, data) => {
     data: data,
   })
     .then((response) => {
-      console.log("In axios", response);
       return response.data;
     })
     .catch((err) => {

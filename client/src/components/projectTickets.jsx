@@ -2,8 +2,7 @@ import TicketContainer from "./ticketContainer";
 import { useSelector } from "react-redux";
 
 const ProjectTickets = ({ projectData }) => {
-  let { tickets } = useSelector((state) => state.projectDetails.projectData);
-  tickets = tickets.filter((item) => item.project_id === projectData.pid);
+  let { tickets } = projectData;
   const lowPriorityTickets = tickets.filter(
     (item) => item.priority.toLowerCase() === "low"
   );

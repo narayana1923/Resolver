@@ -4,11 +4,15 @@ import { useNavigate } from "react-router-dom";
 const TicketCard = ({ ticket, ticketDetails }) => {
   const navigate = useNavigate();
 
+  const handleCloseTicket = () => {};
+
+  const handleChangePriority = () => {};
+
   const popUpMenu = () => {
     return (
       <Menu>
-        <Menu.Item>Close Ticket</Menu.Item>
-        <Menu.Item>Change Priority</Menu.Item>
+        <Menu.Item onClick={handleCloseTicket}>Close Ticket</Menu.Item>
+        <Menu.Item onClick={handleChangePriority}>Change Priority</Menu.Item>
       </Menu>
     );
   };
@@ -42,9 +46,17 @@ const TicketCard = ({ ticket, ticketDetails }) => {
           </svg>
         </button>
       </Dropdown>
-      <span className="flex items-center h-6 px-3 text-xs font-semibold text-green-500 bg-green-100 rounded-full">
-        {ticket.status}
-      </span>
+      {ticket.status === "close" && (
+        <span className="flex items-center h-6 px-3 text-xs font-semibold text-red-500 bg-red-100 rounded-full">
+          {ticket.status}
+        </span>
+      )}
+      {ticket.status === "open" && (
+        <span className="flex items-center h-6 px-3 text-xs font-semibold text-green-500 bg-green-100 rounded-full">
+          {ticket.status}
+        </span>
+      )}
+
       <div className="w-full h-ful" onClick={handleTicket}>
         <h4 className="mt-3 text-sm font-medium">{ticket.summary}</h4>
         <div className="flex items-center w-full mt-3 text-xs font-medium text-gray-400">
@@ -78,7 +90,9 @@ const TicketCard = ({ ticket, ticketDetails }) => {
                 clip-rule="evenodd"
               />
             </svg>
-            <span className="ml-1 leading-none">{ticketDetails.length}</span>
+            <span className="ml-1 leading-none">
+              {ticketDetails === undefined ? 0 : ticketDetails.length}
+            </span>
           </div>
           <div className="flex items-center ml-4">
             <svg

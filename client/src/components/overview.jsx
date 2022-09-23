@@ -25,9 +25,14 @@ const OverView = () => {
   const { Option } = Select;
   const dispatch = useDispatch();
 
-  const { projects, tickets } = useSelector(
-    (state) => state.projectDetails.projectData
-  );
+  const { projects } = useSelector((state) => state.projectDetails.projectData);
+  const getTickets = () => {
+    let tickets = [];
+    for (var i = 0; i < projects.length; i++) {
+      tickets.push(...projects[i].tickets);
+    }
+    return tickets;
+  };
   const { employees } = useSelector(
     (state) => state.employeeDetails.employeeData
   );
@@ -40,6 +45,7 @@ const OverView = () => {
     // data["email"] = email;
     console.log(values);
     const response = await putData(createProject, data);
+    console.log("Response", response);
     if (response !== undefined) dispatch(addProject(response));
   };
 
@@ -79,7 +85,7 @@ const OverView = () => {
           title="Tickets Resolved"
           value={
             projects !== undefined
-              ? tickets.filter((item) => item.status === "close").length
+              ? getTickets().filter((item) => item.status === "close").length
               : 0
           }
           icon={<FaStopCircle size={48} className="" color="red" />}
@@ -88,7 +94,7 @@ const OverView = () => {
           title="Tickets Active"
           value={
             projects !== undefined
-              ? tickets.filter((item) => item.status === "open").length
+              ? getTickets().filter((item) => item.status === "open").length
               : 0
           }
           icon={<FaBug size={48} className="" color="brown" />}

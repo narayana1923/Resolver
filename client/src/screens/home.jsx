@@ -7,7 +7,7 @@ const Home = () => {
     <div className="flex bg-gray-100">
       <Navbar />
       <div style={{ marginLeft: "18vw" }} className="flex-grow overflow-y-auto">
-        <div className=" bg-wh-500 p-4">
+        <div className="h-screen bg-wh-500 p-4">
           <OverView />
         </div>
       </div>

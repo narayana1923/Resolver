@@ -1,22 +1,27 @@
-import { Form, Input, Upload, Button, Switch } from "antd";
+import { Form, Input, Upload, Button, Switch, message } from "antd";
 import "antd/dist/antd.css";
 import { PlusOutlined, VerticalLeftOutlined } from "@ant-design/icons";
 import Axios from "axios";
 import { useState } from "react";
 import { putData } from "../store/api";
 import { addEmployee } from "../constants/urls";
+import { useDispatch } from "react-redux";
 
 const AddEmployee = ({ handleModal, form }) => {
   const [isBulkAdd, setBulkAdd] = useState(false);
-
+  const dispatch = useDispatch();
   const onFinish = async (values) => {
     console.log(values);
+
     if (isBulkAdd === false) {
       const res = [values];
       const response = await putData(addEmployee, {
         organizationId: localStorage.getItem("id"),
         employeeData: res,
       });
+      console.log(response);
+      handleModal();
+      message.success("Added Employee");
     } else {
       const employeeFile = values.upload.fileList[0].originFileObj;
       const reader = new FileReader();
@@ -40,6 +45,7 @@ const AddEmployee = ({ handleModal, form }) => {
           employeeData: res,
         });
         console.log(response);
+        message.success("Added Employees");
       };
       reader.readAsText(employeeFile);
     }
@@ -47,6 +53,7 @@ const AddEmployee = ({ handleModal, form }) => {
   };
 
   const onFinishFailed = (err) => {
+    message.error("Please enter valid details");
     console.log(err);
   };
 
@@ -74,37 +81,35 @@ const AddEmployee = ({ handleModal, form }) => {
         </div>
         {!isBulkAdd && (
           <div>
-            <Form.Item>
-              <Form.Item
-                label="Email"
-                name="email"
-                rules={[{ required: true, message: "Please enter email!" }]}
-              >
-                <Input size="large" placeholder="Enter email" />
-              </Form.Item>
-              <Form.Item
-                label="Name"
-                name="name"
-                rules={[{ required: true, message: "Please enter name!" }]}
-              >
-                <Input size="large" placeholder="Enter name" />
-              </Form.Item>
-              <Form.Item
-                label="Role"
-                name="role"
-                rules={[{ required: true, message: "Please enter role!" }]}
-              >
-                <Input size="large" placeholder="Enter role" />
-              </Form.Item>
-              <Form.Item
-                label="Mobile number"
-                name="mobileNumber"
-                rules={[
-                  { required: true, message: "Please enter mobile number!" },
-                ]}
-              >
-                <Input placeholder="Enter mobile number" />
-              </Form.Item>
+            <Form.Item
+              label="Email"
+              name="email"
+              rules={[{ required: true, message: "Please enter email!" }]}
+            >
+              <Input size="large" placeholder="Enter email" />
+            </Form.Item>
+            <Form.Item
+              label="Name"
+              name="name"
+              rules={[{ required: true, message: "Please enter name!" }]}
+            >
+              <Input size="large" placeholder="Enter name" />
+            </Form.Item>
+            <Form.Item
+              label="Role"
+              name="role"
+              rules={[{ required: true, message: "Please enter role!" }]}
+            >
+              <Input size="large" placeholder="Enter role" />
+            </Form.Item>
+            <Form.Item
+              label="Mobile number"
+              name="mobileNumber"
+              rules={[
+                { required: true, message: "Please enter mobile number!" },
+              ]}
+            >
+              <Input placeholder="Enter mobile number" />
             </Form.Item>
           </div>
         )}
@@ -154,7 +159,7 @@ const AddEmployee = ({ handleModal, form }) => {
           </div>
         )}
         <Form.Item className="flex w-ful justify-center">
-          <Button onClick={handleModal} type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit">
             Add Employee{isBulkAdd && "s"}
           </Button>
         </Form.Item>

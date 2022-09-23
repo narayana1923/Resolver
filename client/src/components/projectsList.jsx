@@ -7,9 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 const ProjectList = () => {
   const navigate = useNavigate();
-  const { projects, tickets } = useSelector(
-    (state) => state.projectDetails.projectData
-  );
+  const { projects } = useSelector((state) => state.projectDetails.projectData);
   const { employees } = useSelector(
     (state) => state.employeeDetails.employeeData
   );
@@ -41,21 +39,15 @@ const ProjectList = () => {
                   </Table.Cell>
                   <Table.Cell>
                     {
-                      tickets.filter((ticket) => {
-                        return (
-                          ticket.project_id === item.pid &&
-                          ticket.status === "open"
-                        );
+                      item.tickets.filter((ticket) => {
+                        return ticket.status === "open";
                       }).length
                     }
                   </Table.Cell>
                   <Table.Cell>
                     {
-                      tickets.filter((ticket) => {
-                        return (
-                          ticket.project_id === item.pid &&
-                          ticket.status === "close"
-                        );
+                      item.tickets.filter((ticket) => {
+                        return ticket.status === "close";
                       }).length
                     }
                   </Table.Cell>

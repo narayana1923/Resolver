@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import getAsyncThunk from "../createThunk";
 import initialState from "../initialState";
 import { getProjects } from "../../constants/urls";
+import { current } from "@reduxjs/toolkit";
 
 export const getProjectDetails = getAsyncThunk(
   "getProjectDetails",
@@ -16,10 +17,33 @@ const projectDetailsSlice = createSlice({
       state.projectData.projects.push(action.payload);
     },
     addTicket: (state, action) => {
-      state.projectData.tickets.push(action.payload);
+      const { projectId, ticket } = action.payload;
+      for (var i = 0; i < state.projectData.projects.length; i++) {
+        if (state.projectData.projects[i].pid === projectId) {
+          state.projectData.projects[i].tickets.push(ticket);
+          console.log(current(state.projectData.projects[i].tickets));
+          break;
+        }
+      }
     },
     addTicketDetails: (state, action) => {
-      state.projectData.ticketDetails.push(action.payload);
+      let { projectId, ticketId, ticketDetail } = action.payload;
+      for (var i = 0; i < state.projectData.projects.length; i++) {
+        if (state.projectData.projects[i].pid === projectId) {
+          for (
+            var j = 0;
+            j < state.projectData.projects[i].tickets.length;
+            j++
+          ) {
+            if (state.projectData.projects[i].tickets[j].tid === ticketId) {
+              state.projectData.projects[i].tickets[j].ticketDetails.push(
+                ticketDetail
+              );
+              return;
+            }
+          }
+        }
+      }
     },
   },
   extraReducers: (builder) => {

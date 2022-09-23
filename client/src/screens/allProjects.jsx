@@ -15,9 +15,7 @@ const AllProjects = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const { Option } = Select;
   const dispatch = useDispatch();
-  const { projects, tickets } = useSelector(
-    (state) => state.projectDetails.projectData
-  );
+  const { projects } = useSelector((state) => state.projectDetails.projectData);
   const { employees } = useSelector(
     (state) => state.employeeDetails.employeeData
   );
@@ -50,7 +48,10 @@ const AllProjects = () => {
   return (
     <div className="flex h-screen bg-gray-100">
       <Navbar />
-      <div style={{ marginLeft: "18vw" }} className="flex-grow overflow-y-auto overflow-x-hidden">
+      <div
+        style={{ marginLeft: "18vw" }}
+        className="flex-grow overflow-y-auto overflow-x-hidden"
+      >
         <div className="bg-wh-500 p-2">
           <div>
             <h1 className="text-5xl font-semibold mt-4 ml-4">All Projects</h1>
@@ -58,13 +59,6 @@ const AllProjects = () => {
               <Row gutter={24} className="ml-2">
                 {/* <ProjectCard /> */}
                 {projects.map((item) => {
-                  let activeCount = 0;
-                  const totalCount = tickets.filter((ticket) => {
-                    if (ticket.project_id == item.pid) {
-                      activeCount++;
-                      return true;
-                    }
-                  }).length;
                   return (
                     <Col
                       className="mb-4"
@@ -80,8 +74,16 @@ const AllProjects = () => {
                         projectName={item.name}
                         projectStatus={item.status}
                         employeeCount={item.assignedEmployees.length}
-                        activeTickets={activeCount}
-                        resolvedTickets={totalCount - activeCount}
+                        activeTickets={
+                          item.tickets.filter(
+                            (ticket) => ticket.status === "open"
+                          ).length
+                        }
+                        resolvedTickets={
+                          item.tickets.filter(
+                            (ticket) => ticket.status === "close"
+                          ).length
+                        }
                       />
                     </Col>
                   );
