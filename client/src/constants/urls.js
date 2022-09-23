@@ -1,8 +1,9 @@
-export const createProject = "createProject";
-export const login = "login";
-export const register = "register";
+export const createProjectURL = "createProject";
+export const loginURL = "login";
+export const registerURL = "register";
 // export const getProjects = "getProjects";
-export const getProjects = "getProjects/get";
-export const getEmployees = "getEmployees";
-export const raiseTicket = "raiseTicket";
-export const addEmployee = "addEmployee";
+export const getProjectsURL = "getProjects/get";
+export const getEmployeesURL = "getEmployees";
+export const raiseTicketURL = "raiseTicket";
+export const updateTicketURL = "updateTicket";
+export const addEmployeeURL = "addEmployee";

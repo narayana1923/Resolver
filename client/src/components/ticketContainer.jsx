@@ -51,9 +51,7 @@ const TicketContainer = ({ priority, tickets, projectData }) => {
           </Tooltip>
         </div>
         {initialTickets.slice(0, 3).map((ticket) => {
-          return (
-            <TicketCard ticket={ticket} ticketDetails={ticket.ticketDetails} />
-          );
+          return <TicketCard ticket={ticket} />;
         })}
       </div>
       <Modal

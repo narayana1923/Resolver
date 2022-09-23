@@ -4,7 +4,7 @@ import { Table, Button } from "flowbite-react";
 import { useSelector } from "react-redux";
 import { Form, Input, Select, Modal } from "antd";
 import { putData } from "../store/api";
-import { createProject } from "../constants/urls";
+import { createProjectURL } from "../constants/urls";
 import { useDispatch } from "react-redux";
 
 import {
@@ -44,7 +44,7 @@ const OverView = () => {
     data["id"] = id;
     // data["email"] = email;
     console.log(values);
-    const response = await putData(createProject, data);
+    const response = await putData(createProjectURL, data);
     console.log("Response", response);
     if (response !== undefined) dispatch(addProject(response));
   };

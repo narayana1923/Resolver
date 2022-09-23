@@ -15,7 +15,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "antd/dist/antd.css";
 import { useState } from "react";
 import { putData } from "../store/api";
-import { raiseTicket } from "../constants/urls";
+import { raiseTicketURL } from "../constants/urls";
 import { useDispatch, useSelector } from "react-redux";
 import { addTicket } from "../store/slices/projectsDetailsSlice";
 
@@ -52,7 +52,7 @@ const ViewProject = () => {
     data["description"] = description;
     data["projectId"] = state.pid;
     console.log(data);
-    const response = await putData(raiseTicket, data);
+    const response = await putData(raiseTicketURL, data);
     console.log(response);
     if (response !== undefined) dispatch(addTicket(response));
     setModalOpen(!isModalOpen);

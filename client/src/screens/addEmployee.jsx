@@ -4,7 +4,7 @@ import { PlusOutlined, VerticalLeftOutlined } from "@ant-design/icons";
 import Axios from "axios";
 import { useState } from "react";
 import { putData } from "../store/api";
-import { addEmployee } from "../constants/urls";
+import { addEmployeeURL } from "../constants/urls";
 import { useDispatch } from "react-redux";
 
 const AddEmployee = ({ handleModal, form }) => {
@@ -15,7 +15,7 @@ const AddEmployee = ({ handleModal, form }) => {
 
     if (isBulkAdd === false) {
       const res = [values];
-      const response = await putData(addEmployee, {
+      const response = await putData(addEmployeeURL, {
         organizationId: localStorage.getItem("id"),
         employeeData: res,
       });
@@ -40,7 +40,7 @@ const AddEmployee = ({ handleModal, form }) => {
             res.push(obj);
           }
         }
-        const response = await putData(addEmployee, {
+        const response = await putData(addEmployeeURL, {
           organizationId: localStorage.getItem("id"),
           employeeData: res,
         });

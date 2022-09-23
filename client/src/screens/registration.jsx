@@ -1,12 +1,12 @@
 import "../App.css";
 import { Form, Button, Checkbox, Input, message } from "antd";
 import { putData } from "../store/api";
-import { register } from "../constants/urls";
+import { registerURL } from "../constants/urls";
 
 const Registration = ({ form, handleModal }) => {
   const onFinish = async (values) => {
     console.log(values);
-    const response = await putData(register, values);
+    const response = await putData(registerURL, values);
     if (response === undefined || response === null || response === "Not Ok") {
       message.error("Something Went Wrong");
     } else {

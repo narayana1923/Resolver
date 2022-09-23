@@ -1,7 +1,7 @@
 import { Button, Form, Input, Select } from "antd";
 import "antd/dist/antd.css";
 import { useDispatch } from "react-redux";
-import { raiseTicket } from "../constants/urls";
+import { raiseTicketURL } from "../constants/urls";
 import { putData } from "../store/api";
 import { addTicket } from "../store/slices/projectsDetailsSlice";
 
@@ -23,7 +23,7 @@ const RaiseTicket = ({
     data["description"] = description;
     data["projectId"] = projectData.pid;
     console.log(data);
-    const response = await putData(raiseTicket, data);
+    const response = await putData(raiseTicketURL, data);
     if (response !== undefined) {
       dispatch(addTicket({ projectId: projectData.pid, ticket: response }));
       setInitialTickets((prev) => {

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ProjectCard from "../components/projectCard";
 import Navbar from "../components/navbar";
-import { createProject } from "../constants/urls";
+import { createProjectURL } from "../constants/urls";
 import { putData } from "../store/api";
 import { addProject } from "../store/slices/projectsDetailsSlice";
 
@@ -27,7 +27,7 @@ const AllProjects = () => {
     data["id"] = id;
     // data["email"] = email;
     console.log(values);
-    const response = await putData(createProject, data);
+    const response = await putData(createProjectURL, data);
     console.log(response);
     if (response !== undefined) dispatch(addProject(response));
   };

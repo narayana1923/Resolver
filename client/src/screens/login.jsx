@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { fetchData } from "../store/api";
 import { storeUsername } from "../store/slices/loginSlice";
-import { login } from "../constants/urls";
+import { loginURL } from "../constants/urls";
 
 const Login = ({ handleModal, form }) => {
   const dispatch = useDispatch();
@@ -15,7 +15,7 @@ const Login = ({ handleModal, form }) => {
   const password = "nara";
   const navigate = useNavigate();
   const onFinish = async (values) => {
-    const data = await fetchData(login, values);
+    const data = await fetchData(loginURL, values);
     if (data !== undefined) {
       dispatch(storeUsername(data["email"]));
       localStorage.setItem("id", data["id"]);

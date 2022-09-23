@@ -15,7 +15,6 @@ const TicketDetails = ({ ticket, ticketDetails }) => {
   return (
     <div className="p-18 max-w-5xl">
       <Card href="#">
-        <div></div>
         <div>
           <h5 className="text-2xl mb-4 font-bold tracking-tight text-gray-900 dark:text-white">
             {ticket.name}

@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "antd/dist/antd.css";
 import { useState } from "react";
 import { putData } from "../store/api";
-import { raiseTicket } from "../constants/urls";
+import { raiseTicketURL } from "../constants/urls";
 import { useDispatch, useSelector } from "react-redux";
 import { addTicket } from "../store/slices/projectsDetailsSlice";
 import Navbar from "../components/navbar";
