@@ -14,6 +14,7 @@ const getTicketsRoute = require("./routes/getTickets");
 const loginRoute = require("./routes/login");
 const registerRoute = require("./routes/register");
 const raiseTicketRoute = require("./routes/raiseTicket");
+const updateTicketRoute = require("./routes/updateTicket");
 
 app.use(cors());
 app.use(express.json());
@@ -27,6 +28,7 @@ app.use("/getTickets", getTicketsRoute);
 app.use("/login", loginRoute);
 app.use("/register", registerRoute);
 app.use("/raiseTicket", raiseTicketRoute);
+app.use("/updateTicket", updateTicketRoute);
 
 app.listen(PORT, () => {
   console.log("server is working");
