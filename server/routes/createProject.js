@@ -35,19 +35,40 @@ router.post("/", (request, response) => {
       db.query(
         "SELECT * FROM `resolver`.`project` where pid = ?",
         [result.insertId],
-        (innerError, innerResult) => {
-          if (innerError) {
-            console.log(innerError);
+        (projectError, projectResult) => {
+          if (projectError) {
+            console.log(projectError);
             return response.status(500).send("Oops Something went wrong");
           }
           let row = {};
-          row["pid"] = innerResult[0]["pid"];
-          row["name"] = innerResult[0]["name"];
-          row["start_date"] = innerResult[0]["start_date"];
-          row["end_date"] = innerResult[0]["end_date"];
-          row["status"] = innerResult[0]["status"];
-        //   returnData["projectData"] = row;
-          return response.status(200).send(row);
+          row["pid"] = projectResult[0]["pid"];
+          row["name"] = projectResult[0]["name"];
+          row["start_date"] = projectResult[0]["start_date"];
+          row["end_date"] = projectResult[0]["end_date"];
+          row["status"] = projectResult[0]["status"];
+          db.query(
+            "SELECT *" + "FROM `resolver`.`project_assign` where pid=?",
+            [result.insertId],
+            (assignError, assignResult) => {
+              if (assignError) {
+                console.log(assignError);
+                return response.status(500).send("Oops Something went wrong");
+              } else {
+                let assignedEmployees = [];
+                for (var i = 0; i < assignResult.length; i++) {
+                  let assignRow = {};
+                  assignRow["assign_id"] = assignResult[i]["assign_id"];
+                  assignRow["project_id"] = assignResult[i]["project_id"];
+                  assignRow["eid"] = assignResult[i]["eid"];
+                  assignRow["assigned_on"] = assignResult[i]["assigned_on"];
+                  assignedEmployees.push(assignRow);
+                }
+                row["assignedEmployees"] = assignedEmployees;
+                row["tickets"] = [];
+                return response.status(200).send(row);
+              }
+            }
+          );
         }
       );
     }

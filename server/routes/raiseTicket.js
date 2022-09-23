@@ -31,10 +31,11 @@ router.post("/", (request, response) => {
             ticket["summary"] = innerResult[0]["summary"];
             ticket["priority"] = innerResult[0]["priority"];
             ticket["description"] = innerResult[0]["description"];
+            ticket["status"] = innerResult[0]["status"];
             ticket["raised_date"] = innerResult[0]["raised_date"];
             ticket["close_date"] = innerResult[0]["close_date"];
             ticket["project_id"] = innerResult[0]["project_id"];
-            return response.status(200).send({ ticket: row });
+            return response.status(200).send(ticket);
           }
         );
       }
