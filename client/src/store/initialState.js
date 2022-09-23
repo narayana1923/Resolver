@@ -10,8 +10,8 @@ const initialState = {
     projectData: {
       organizationId: "",
       projects: [],
-      tickets: [],
-      ticketDetails: [],
+      // tickets: [],
+      // ticketDetails: [],
     },
   },
   employeeDetails: {
