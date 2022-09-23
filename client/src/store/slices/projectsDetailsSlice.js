@@ -46,20 +46,14 @@ const projectDetailsSlice = createSlice({
       }
     },
     addTicketDetails: (state, action) => {
-      let { projectId, ticketId, ticketDetail } = action.payload;
+      let { tid } = action.payload;
       for (var i = 0; i < state.projectData.projects.length; i++) {
-        if (state.projectData.projects[i].pid === projectId) {
-          for (
-            var j = 0;
-            j < state.projectData.projects[i].tickets.length;
-            j++
-          ) {
-            if (state.projectData.projects[i].tickets[j].tid === ticketId) {
-              state.projectData.projects[i].tickets[j].ticketDetails.push(
-                ticketDetail
-              );
-              return;
-            }
+        for (var j = 0; j < state.projectData.projects[i].tickets.length; j++) {
+          if (state.projectData.projects[i].tickets[j].tid === tid) {
+            state.projectData.projects[i].tickets[j].ticketDetails.push(
+              action.payload
+            );
+            return;
           }
         }
       }
