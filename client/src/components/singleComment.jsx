@@ -1,13 +1,16 @@
 import { useSelector } from "react-redux";
 
 const SingleComment = ({ ticketDetail }) => {
-  // TODO: Ticket raised by employee
-  // const {employees} = useSelector(state => state.employeeDetails.employeeData);
+  const { employees } = useSelector(
+    (state) => state.employeeDetails.employeeData
+  );
+  const raisedEmployee = employees.filter(
+    (employee) => employee.empid === ticketDetail.eid
+  )[0];
   return (
-    <div className=" px-16 ">
-      {/* <Card> */}
+    <div className=" px-16">
       <div className="md:w-1/2 w-full min-w-full">
-        <div className="h-full  my-4 rounded bg-blue-100 rounded-4 border-2 shadow p-3">
+        <div className="h-full  my-4 rounded-xl shadow-xl bg-blue-100 rounded-4 border-2 shadow p-3 ">
           <div className="flex justify-start">
             <span className="inline-flex items-center ">
               <img
@@ -17,9 +20,15 @@ const SingleComment = ({ ticketDetail }) => {
               />
               <span className="flex-grow flex flex-col pl-4">
                 <span className="title-font font-semibold text-sm text-gray-900">
-                  Holden Caulfield
+                  {raisedEmployee === undefined
+                    ? "Example"
+                    : raisedEmployee.name}
                 </span>
-                <span className="text-gray-500 text-xs">UI DEVELOPER</span>
+                <span className="text-gray-500 text-xs">
+                  {raisedEmployee === undefined
+                    ? "Example"
+                    : raisedEmployee.role}
+                </span>
               </span>
             </span>
           </div>

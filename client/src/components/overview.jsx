@@ -18,6 +18,9 @@ import {
 import { MdPendingActions } from "react-icons/md";
 import { addProject } from "../store/slices/projectsDetailsSlice";
 import ProjectList from "./projectsList";
+import DisplayNothing from "./displayNothing";
+import BouncingProjectCard from "./bouncingProjectCard";
+import CreateProject from "./createProject";
 
 const OverView = () => {
   const [form] = Form.useForm();
@@ -32,25 +35,6 @@ const OverView = () => {
       tickets.push(...projects[i].tickets);
     }
     return tickets;
-  };
-  const { employees } = useSelector(
-    (state) => state.employeeDetails.employeeData
-  );
-
-  const onFinish = async (values) => {
-    // const email = localStorage.getItem("username");
-    const id = localStorage.getItem("id");
-    const data = values;
-    data["id"] = id;
-    // data["email"] = email;
-    console.log(values);
-    const response = await putData(createProjectURL, data);
-    console.log("Response", response);
-    if (response !== undefined) dispatch(addProject(response));
-  };
-
-  const onFinishFailed = () => {
-    console.log("Enter true values");
   };
 
   const handleModal = () => {
@@ -70,7 +54,8 @@ const OverView = () => {
               ? projects.filter((item) => item.status === "completed").length
               : 0
           }
-          icon={<FaCheckCircle size={48} className="" color="green" />}
+          icon={<FaCheckCircle size={48} color="green" />}
+          screenName="/completedProjects"
         />
         <StatCard
           title="In Progress"
@@ -79,7 +64,8 @@ const OverView = () => {
               ? projects.filter((item) => item.status === "open").length
               : 0
           }
-          icon={<MdPendingActions size={48} className="" color="amber" />}
+          icon={<MdPendingActions size={48} color="amber" />}
+          screenName="/onGoingProjects"
         />
         <StatCard
           title="Tickets Resolved"
@@ -88,7 +74,8 @@ const OverView = () => {
               ? getTickets().filter((item) => item.status === "close").length
               : 0
           }
-          icon={<FaStopCircle size={48} className="" color="red" />}
+          icon={<FaStopCircle size={48} color="red" />}
+          screenName="/resolvedTickets"
         />
         <StatCard
           title="Tickets Active"
@@ -97,71 +84,44 @@ const OverView = () => {
               ? getTickets().filter((item) => item.status === "open").length
               : 0
           }
-          icon={<FaBug size={48} className="" color="brown" />}
+          icon={<FaBug size={48} color="brown" />}
+          screenName="/activeTickets"
         />
       </div>
 
-      <h1 className="text-4xl font-semibold mt-12 mb-4">
-        List of Projects:{" "}
-        <span className=" flex w-ful justify-end">
-          <span className="justify-self-end">
+      {projects.length !== 0 && (
+        <h1 className="text-4xl font-semibold mt-12 mb-4">
+          List of Projects:{" "}
+          <span className=" flex w-ful justify-end">
+            <span className="justify-self-end">
+              <Button onClick={handleModal}>
+                <FaPlusCircle className="mr-2 h-5 w-5" />
+                Add New Project
+              </Button>
+            </span>
+          </span>
+        </h1>
+      )}
+      {projects.length !== 0 && <ProjectList />}
+      {projects.length === 0 && <DisplayNothing text={"projects"} />}
+      {projects.length === 0 && (
+        <span className=" flex w-full justify-center mt-3">
+          <span className="justify-self-center">
             <Button onClick={handleModal}>
               <FaPlusCircle className="mr-2 h-5 w-5" />
-              Add New Project
+              Add A New Project
             </Button>
           </span>
         </span>
-      </h1>
-      <ProjectList />
+      )}
       <Modal
-        title="Create Project"
+        title="Add Project"
         open={isModalOpen}
         footer={[]}
         onCancel={handleModal}
         centered
       >
-        <Form
-          form={form}
-          name="registration"
-          layout="vertical"
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-          size="middle"
-        >
-          <Form.Item label="Name" name="name" initialValue="nara">
-            <Input placeholder="Enter name" />
-          </Form.Item>
-          <Form.Item
-            label="Expected End Date"
-            name="expectedEndDate"
-            initialValue="2022-12-12"
-          >
-            <Input placeholder="Enter expected end data" type="date" />
-          </Form.Item>
-          <Form.Item label="employees" name="employees">
-            <Select
-              placeholder="Select Employees for project"
-              mode="multiple"
-              showArrow={true}
-              showSearch={true}
-              maxTagCount={5}
-              maxTagTextLength={10}
-            >
-              {employees.map((item) => {
-                return (
-                  <Option key={item.empid} value={item.empid}>
-                    {item.email}
-                  </Option>
-                );
-              })}
-            </Select>
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit" onClick={handleModal}>
-              Create Project
-            </Button>
-          </Form.Item>
-        </Form>
+        <CreateProject form={form} handleModal={handleModal} />
       </Modal>
     </div>
   );

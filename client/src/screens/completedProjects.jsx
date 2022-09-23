@@ -1,27 +1,19 @@
-import { Modal, Form, Row, Col } from "antd";
+import { Row, Col } from "antd";
 import "antd/dist/antd.css";
-import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ProjectCard from "../components/projectCard";
 import Navbar from "../components/navbar";
-import CreateProject from "../components/createProject";
-import BouncingProjectCard from "../components/bouncingProjectCard";
 import DisplayNothing from "../components/displayNothing";
 
-const AllProjects = () => {
-  const [form] = Form.useForm();
+const CompletedProjects = () => {
   const navigate = useNavigate();
-  const [isModalOpen, setModalOpen] = useState(false);
   const { projects } = useSelector((state) => state.projectDetails.projectData);
-
+  const finishedProjects = projects.filter(
+    (project) => project.status === "completed"
+  );
   const handleProject = (item) => {
     navigate("/viewProject", { state: item });
-    // navigate("/tempViewProject", { state: item });
-  };
-
-  const handleModal = () => {
-    setModalOpen(!isModalOpen);
   };
 
   return (
@@ -32,18 +24,19 @@ const AllProjects = () => {
         className="flex-grow overflow-y-auto overflow-x-hidden"
       >
         <div className="bg-wh-500 p-2">
-          {projects.length === 0 && (
+          {finishedProjects.length === 0 && (
             <div className="grid place-items-center h-screen relative -top-5">
-              <DisplayNothing text={"project"} />
+              <DisplayNothing text={"completed projects"} />
             </div>
           )}
-          {projects.length !== 0 && (
+          {finishedProjects.length !== 0 && (
             <div>
-              <h1 className="text-5xl font-semibold mt-4 ml-4">All Projects</h1>
+              <h1 className="text-5xl font-semibold mt-4 ml-4">
+                Completed Projects
+              </h1>
               <div className="ml-2">
                 <Row gutter={24} className="ml-2">
-                  {/* <ProjectCard /> */}
-                  {projects.map((item) => {
+                  {finishedProjects.map((item) => {
                     return (
                       <Col
                         className="mb-4"
@@ -59,38 +52,13 @@ const AllProjects = () => {
                           projectName={item.name}
                           projectStatus={item.status}
                           employeeCount={item.assignedEmployees.length}
-                          activeTickets={
-                            item.tickets.filter(
-                              (ticket) => ticket.status === "open"
-                            ).length
-                          }
-                          resolvedTickets={
-                            item.tickets.filter(
-                              (ticket) => ticket.status === "close"
-                            ).length
-                          }
+                          activeTickets={0}
+                          resolvedTickets={item.tickets.length}
                         />
                       </Col>
                     );
                   })}
-                  <Col
-                    className="mt-4"
-                    span={8}
-                    style={{
-                      cursor: "pointer",
-                    }}
-                  >
-                    <BouncingProjectCard />
-                  </Col>
                 </Row>
-                <Modal
-                  title="Create Project"
-                  open={isModalOpen}
-                  footer={[]}
-                  onCancel={handleModal}
-                >
-                  <CreateProject form={form} handleModal={handleModal} />
-                </Modal>
               </div>
             </div>
           )}
@@ -100,4 +68,4 @@ const AllProjects = () => {
   );
 };
 
-export default AllProjects;
+export default CompletedProjects;

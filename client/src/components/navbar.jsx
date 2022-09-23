@@ -4,20 +4,27 @@ import reactLogo from "../assets/react.svg";
 import { Sidebar } from "flowbite-react";
 
 import { FaBug, FaCog, FaBolt, FaSignOutAlt } from "react-icons/fa";
+import { MdWorkOutline } from "react-icons/md";
 import { BsFillBarChartFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import AddEmployee from "../screens/addEmployee";
+import AddEmployee from "./addEmployee";
 import { Form, Modal } from "antd";
 import { useDispatch } from "react-redux";
 import { logout } from "../store/slices/loginSlice";
+import CreateProject from "./createProject";
 
 const Navbar = () => {
   const [form] = Form.useForm();
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [isEmployeeModalOpen, setEmployeeModalOpen] = useState(false);
+  const [isProjectModalOpen, setProjectModalOpen] = useState(false);
   const dispatch = useDispatch();
-  const handleModal = () => {
+  const handleEmployeeModal = () => {
     form.resetFields();
-    setModalOpen(!isModalOpen);
+    setEmployeeModalOpen(!isEmployeeModalOpen);
+  };
+  const handleProjectModal = () => {
+    form.resetFields();
+    setProjectModalOpen(!isProjectModalOpen);
   };
 
   const handleLogout = () => {
@@ -46,8 +53,11 @@ const Navbar = () => {
             <Link className="text-dark" to="/allTickets">
               <Sidebar.Item icon={FaBug}>Issues</Sidebar.Item>
             </Link>
-            <Sidebar.Item onClick={handleModal} icon={FaCog}>
+            <Sidebar.Item onClick={handleEmployeeModal} icon={FaCog}>
               Add Members
+            </Sidebar.Item>
+            <Sidebar.Item onClick={handleProjectModal} icon={MdWorkOutline}>
+              Add Project
             </Sidebar.Item>
           </Sidebar.ItemGroup>
           <Sidebar.ItemGroup onClick={handleLogout}>
@@ -59,13 +69,21 @@ const Navbar = () => {
       </Sidebar>
       <Modal
         title="Add Employees"
-        open={isModalOpen}
+        open={isEmployeeModalOpen}
         footer={[]}
-        onCancel={handleModal}
+        onCancel={handleEmployeeModal}
         centered
-        className="ml-5"
       >
-        <AddEmployee handleModal={handleModal} form={form} />
+        <AddEmployee handleModal={handleEmployeeModal} form={form} />
+      </Modal>
+      <Modal
+        title="Add Project"
+        open={isProjectModalOpen}
+        footer={[]}
+        onCancel={handleProjectModal}
+        centered
+      >
+        <CreateProject form={form} handleModal={handleProjectModal} />
       </Modal>
     </div>
   );

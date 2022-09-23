@@ -1,6 +1,6 @@
 import { Form, Modal, Tooltip } from "antd";
 import { useSelector } from "react-redux";
-import RaiseTicket from "../screens/raiseTicket";
+import RaiseTicket from "./raiseTicket";
 import TicketCard from "./ticketCard";
 import { useState } from "react";
 

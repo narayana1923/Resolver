@@ -1,6 +1,41 @@
 import SingleComment from "./singleComment";
+import { useState } from "react";
+import { message } from "antd";
+import { putData } from "../store/api";
+import { useDispatch } from "react-redux";
+import { addTicketDetails } from "../store/slices/projectsDetailsSlice";
+import { addTicketDetailsURL } from "../constants/urls";
 
-const CommentSection = ({ ticketDetails }) => {
+const CommentSection = ({ ticketId, ticketDetails }) => {
+  const [initialTicketDetails, setInitialTicketDetails] =
+    useState(ticketDetails);
+  const [comment, setComment] = useState("");
+  const dispatch = useDispatch();
+  const changeComment = (event) => {
+    setComment(event.target.value);
+  };
+
+  const handleComment = async () => {
+    if (comment.length < 10) {
+      message.warn("Comment should atleast be 10 characters");
+    } else {
+      const response = await putData(addTicketDetailsURL, {
+        description: comment,
+        ticketId: ticketId,
+        employeeId: localStorage.getItem("id"),
+      });
+      if (response === undefined) {
+        message.error("Oops something went wrong");
+      } else {
+        message.success(comment);
+        dispatch(addTicketDetails(response));
+        setInitialTicketDetails((prevState) => {
+          return [...prevState, response];
+        });
+      }
+    }
+  };
+
   return (
     <section className=" text-gray-600 body-font  mt-10 border rounded-3xl bg-blue-200 ">
       <div className="container px-5 py-10 mx-auto ">
@@ -30,6 +65,7 @@ const CommentSection = ({ ticketDetails }) => {
             name="body"
             placeholder="Type Your Comment"
             required
+            onChange={changeComment}
           ></textarea>
         </div>
         <div class="flex justify-end w-full md:w-full flex items-end md:w-full px-3">
@@ -38,11 +74,12 @@ const CommentSection = ({ ticketDetails }) => {
               type="submit"
               class="bg-white text-gray-700 font-medium py-1 px-4 border border-gray-400 rounded-lg tracking-wide mr-1 hover:scale-105 hover:bg-blue-400"
               value="Post Comment"
-            ></input>
+              onClick={handleComment}
+            />
           </div>
         </div>
         <div className=" -mx-4">
-          {ticketDetails.map((ticketDetail) => {
+          {initialTicketDetails.map((ticketDetail) => {
             return <SingleComment ticketDetail={ticketDetail} />;
           })}
         </div>

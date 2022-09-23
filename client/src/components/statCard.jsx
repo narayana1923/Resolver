@@ -1,25 +1,24 @@
 import React from "react";
 import { Card } from "flowbite-react";
+import { useNavigate } from "react-router-dom";
 
-const StatCard = ({ title, value, icon }) => {
+const StatCard = ({ title, value, icon, screenName }) => {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate(screenName);
+  };
   return (
-    <div className="flex-grow ">
+    <div className="flex-grow cursor-pointer" onClick={handleClick}>
       <Card>
-        <h5 className="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">
+        <h5 className="mb-4 text-2xl font-medium text-gray-500 dark:text-gray-400">
           {title}
         </h5>
         <div className="flex items-baseline text-gray-900 dark:text-white">
-          {/* <span className="text-3xl font-semibold">
-        $
-      </span> */}
-          <span className="text-5xl font-extrabold tracking-tight">
+          <span className="relative -top-2 ml-6 text-5xl font-extrabold tracking-tight">
             {value}
           </span>
 
           <div className="ml-auto">{icon}</div>
-          {/* <span className="ml-1 text-xl font-normal text-gray-500 dark:text-gray-400">
-        /month
-      </span> */}
         </div>
       </Card>
     </div>

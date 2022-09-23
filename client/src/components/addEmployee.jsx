@@ -1,7 +1,6 @@
 import { Form, Input, Upload, Button, Switch, message } from "antd";
 import "antd/dist/antd.css";
 import { PlusOutlined, VerticalLeftOutlined } from "@ant-design/icons";
-import Axios from "axios";
 import { useState } from "react";
 import { putData } from "../store/api";
 import { addEmployeeURL } from "../constants/urls";

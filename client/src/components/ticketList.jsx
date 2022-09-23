@@ -20,7 +20,8 @@ const TicketList = () => {
             <Col className="mb-4" span={8} key={ticket.tid}>
               <TempCard
                 projectName={project.name}
-                ticketId={ticket.ticketId}
+                ticketId={ticket.tid}
+                ticketName={ticket.name}
                 ticketSummary={ticket.summary}
                 handleTicket={() => handleTicket(ticket, ticket.ticketDetails)}
               />
@@ -28,17 +29,6 @@ const TicketList = () => {
           );
         });
       })}
-      {/* {tickets.map((ticket) => {
-        return (
-          <Col className="mb-4" span={8} key={ticket.tid}>
-            <TempCard
-              projectName={""}
-              ticketId={ticket.tid}
-              ticketSummary={ticket.summary}
-            />
-          </Col>
-        );
-      })} */}
     </Row>
   );
 };

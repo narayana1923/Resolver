@@ -14,7 +14,7 @@ const ProjectCard = ({
   return (
     <div
       //   style={{ backgroundColor: color }}
-      className="flex flex-row w-100 h-100 shadow-sm border border-2 rounded rounded-4 bg-white duration-200 hover:scale-105 hover:shadow-xl hover:border hover:border-4"
+      className="flex flex-row w-100 h-100 shadow-sm border border-2 rounded-xl bg-white duration-200 hover:scale-105 hover:shadow-xl hover:border hover:border-4"
     >
       <div
         style={{ minWidth: 140 }}

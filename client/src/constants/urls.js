@@ -1,9 +1,9 @@
 export const createProjectURL = "createProject";
 export const loginURL = "login";
 export const registerURL = "register";
-// export const getProjects = "getProjects";
-export const getProjectsURL = "getProjects/get";
+export const getProjectsURL = "getProjects";
 export const getEmployeesURL = "getEmployees";
 export const raiseTicketURL = "raiseTicket";
 export const updateTicketURL = "updateTicket";
 export const addEmployeeURL = "addEmployee";
+export const addTicketDetailsURL = "addTicketDetails";
