@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import getAsyncThunk from "../createThunk";
 import initialState from "../initialState";
-import { getEmployees } from "../../constants/urls";
+import { getEmployeesURL } from "../../constants/urls";
 
 export const getEmployeeDetails = getAsyncThunk(
   "getEmployeeDetails",
-  getEmployees,
+  getEmployeesURL,
   localStorage.getItem("id")
 );
 const employeeDetailsSlice = createSlice({
