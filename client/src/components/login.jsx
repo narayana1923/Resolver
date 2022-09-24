@@ -6,7 +6,7 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { fetchData } from "../store/api";
-import { storeUsername } from "../store/slices/loginSlice";
+import { storeUserDetails } from "../store/slices/loginSlice";
 import { loginURL } from "../constants/urls";
 
 const Login = ({ handleModal, form }) => {
@@ -17,10 +17,8 @@ const Login = ({ handleModal, form }) => {
   const onFinish = async (values) => {
     const data = await fetchData(loginURL, values);
     if (data !== undefined) {
-      dispatch(storeUsername(data["email"]));
-      localStorage.setItem("id", data["id"]);
-      localStorage.setItem("userType", data["userType"]);
       message.success("Welcome " + data["name"], 1);
+      dispatch(storeUserDetails(data));
       handleModal();
       form.resetFields();
       navigate("/loading");

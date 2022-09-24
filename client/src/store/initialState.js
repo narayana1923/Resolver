@@ -1,8 +1,11 @@
 const initialState = {
   userDetails: {
-    username: "",
+    name: "",
     email: "",
     mobile_number: "",
+    id: "",
+    role: "",
+    organizationId: "",
   },
   projectDetails: {
     isProjectDetailsDataAvailable: false,

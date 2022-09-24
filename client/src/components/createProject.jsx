@@ -11,8 +11,8 @@ const CreateProject = ({ form, handleModal }) => {
   const { Option } = Select;
   const dispatch = useDispatch();
   const onFinish = async (values) => {
-    // const email = localStorage.getItem("username");
-    const id = localStorage.getItem("id");
+    // const email = sessionStorage.getItem("username");
+    const id = sessionStorage.getItem("organizationId");
     const data = values;
     data["id"] = id;
     // data["email"] = email;
@@ -61,7 +61,7 @@ const CreateProject = ({ form, handleModal }) => {
         >
           {employees.map((item) => {
             return (
-              <Option key={item.empid} value={item.empid}>
+              <Option key={item.id} value={item.id}>
                 {item.email}
               </Option>
             );

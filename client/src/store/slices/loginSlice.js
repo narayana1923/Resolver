@@ -6,18 +6,21 @@ const loginSlice = createSlice({
   initialState: initialState.userDetails,
   reducers: {
     logout: (state) => {
-      localStorage.removeItem("email");
+      sessionStorage.removeItem("organizationId");
     },
-    storeUsername: (state, action) => {
-      state.username = action.payload;
-      localStorage.setItem("email", state.username);
+    storeUserDetails: (state, action) => {
+      state = action.payload;
+      sessionStorage.setItem("organizationId", state.organizationId);
     },
     getUsername: (state) => {
       return state.username;
     },
+    getOrganizationId: (state) => {
+      return state.organizationId;
+    },
   },
 });
 
-export const { storeUsername, getUsername, logout } = loginSlice.actions;
+export const { storeUserDetails, getUsername, logout } = loginSlice.actions;
 
 export default loginSlice.reducer;

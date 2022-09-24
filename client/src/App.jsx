@@ -12,9 +12,10 @@ import CompletedProjects from "./screens/completedProjects";
 import OnGoingProjects from "./screens/onGoingProjects";
 import ResolvedTickets from "./screens/resolvedTickets";
 import ActiveTickets from "./screens/activeTickets";
+import Error404 from "./screens/error404";
 
 const App = () => {
-  const email = localStorage.getItem("email");
+  const email = sessionStorage.getItem("email");
   return (
     <div className="App">
       <Router>
@@ -38,7 +39,7 @@ const App = () => {
           <Route exact path="/allTickets" element={<AllTickets />} />
           <Route exact path="/resolvedTickets" element={<ResolvedTickets />} />
           <Route exact path="/activeTickets" element={<ActiveTickets />} />
-          <Route path="*" element={<div>Page Not Found</div>} />
+          <Route path="*" element={<Error404 />} />
         </Routes>
       </Router>
     </div>

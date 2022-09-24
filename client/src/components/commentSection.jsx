@@ -22,7 +22,7 @@ const CommentSection = ({ ticketId, ticketDetails }) => {
       const response = await putData(addTicketDetailsURL, {
         description: comment,
         ticketId: ticketId,
-        employeeId: localStorage.getItem("id"),
+        employeeId: sessionStorage.getItem("organizationId"),
       });
       if (response === undefined) {
         message.error("Oops something went wrong");

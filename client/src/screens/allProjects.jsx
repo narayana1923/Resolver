@@ -80,7 +80,7 @@ const AllProjects = () => {
                       cursor: "pointer",
                     }}
                   >
-                    <BouncingProjectCard />
+                    <BouncingProjectCard handleModal={handleModal} />
                   </Col>
                 </Row>
                 <Modal

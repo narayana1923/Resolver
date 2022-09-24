@@ -1,8 +1,8 @@
 import { Modal, Form } from "antd";
 
 import React, { useState } from "react";
-import Registration from "./registration";
-import Login from "./login";
+import Registration from "../components/registration";
+import Login from "../components/login";
 
 const First = () => {
   const [form] = Form.useForm();

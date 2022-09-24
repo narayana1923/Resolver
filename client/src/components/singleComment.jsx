@@ -5,7 +5,7 @@ const SingleComment = ({ ticketDetail }) => {
     (state) => state.employeeDetails.employeeData
   );
   const raisedEmployee = employees.filter(
-    (employee) => employee.empid === ticketDetail.eid
+    (employee) => employee.id === ticketDetail.eid
   )[0];
   return (
     <div className=" px-16">

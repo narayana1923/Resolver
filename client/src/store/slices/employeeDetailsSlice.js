@@ -6,7 +6,7 @@ import { getEmployeesURL } from "../../constants/urls";
 export const getEmployeeDetails = getAsyncThunk(
   "getEmployeeDetails",
   getEmployeesURL,
-  localStorage.getItem("id")
+  sessionStorage.getItem("organizationId")
 );
 const employeeDetailsSlice = createSlice({
   name: "employeeDetails",

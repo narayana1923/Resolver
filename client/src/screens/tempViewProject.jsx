@@ -40,7 +40,7 @@ const ViewProject = () => {
   let assignDetails = state.assignedEmployees;
   let assignedEmployees = employees.filter((item) => {
     for (var i = 0; i < assignDetails.length; i++) {
-      if (item.empid == assignDetails[i].eid) return true;
+      if (item.id == assignDetails[i].eid) return true;
     }
     return false;
   });
@@ -186,15 +186,15 @@ const ViewProject = () => {
             <div>Employee Details</div>
             {assignedEmployees.map((item) => {
               return (
-                <Card key={item.empid} className="bg-dark mt-2">
+                <Card key={item.id} className="bg-dark mt-2">
                   <h5 className="font-bold text-primary">
-                    <span>Employee-{item.empid}</span>
+                    <span>Employee-{item.id}</span>
                     <span> Role: {item.role}</span>
                   </h5>
                   <p className="font-normal text-white">{item.email}</p>
                 </Card>
-                // <div key={item.empid} className="mt-3 ant-typography-h5">
-                //   <span className="text-primary">Emp-{item.empid}: </span>
+                // <div key={item.id} className="mt-3 ant-typography-h5">
+                //   <span className="text-primary">Emp-{item.id}: </span>
                 //   <span style={{ cursor: "pointer" }} className=" text-danger">
                 //     {item.email}
                 //   </span>

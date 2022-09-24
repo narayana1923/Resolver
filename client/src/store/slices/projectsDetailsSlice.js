@@ -7,7 +7,7 @@ import { current } from "@reduxjs/toolkit";
 export const getProjectDetails = getAsyncThunk(
   "getProjectDetails",
   getProjectsURL,
-  localStorage.getItem("id")
+  sessionStorage.getItem("organizationId")
 );
 const projectDetailsSlice = createSlice({
   name: "projectDetails",

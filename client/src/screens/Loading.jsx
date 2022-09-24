@@ -8,6 +8,9 @@ import { LoadingOutlined } from "@ant-design/icons";
 
 const Loading = () => {
   const navigate = useNavigate();
+  const userData = useSelector(
+    (state) => state.userDetails
+  );
   const { isProjectDetailsDataAvailable, retryProjectDetails } = useSelector(
     (state) => state.projectDetails
   );

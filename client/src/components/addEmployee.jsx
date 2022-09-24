@@ -15,7 +15,7 @@ const AddEmployee = ({ handleModal, form }) => {
     if (isBulkAdd === false) {
       const res = [values];
       const response = await putData(addEmployeeURL, {
-        organizationId: localStorage.getItem("id"),
+        organizationId: sessionStorage.getItem("organizationId"),
         employeeData: res,
       });
       console.log(response);
@@ -40,7 +40,7 @@ const AddEmployee = ({ handleModal, form }) => {
           }
         }
         const response = await putData(addEmployeeURL, {
-          organizationId: localStorage.getItem("id"),
+          organizationId: sessionStorage.getItem("organizationId"),
           employeeData: res,
         });
         console.log(response);
